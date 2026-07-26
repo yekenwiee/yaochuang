@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>窑器制作过程 - 云端等开窑</title>
+  <style>
+    body {
+      margin: 0;
+      background: #1a1613;
+      color: #f5ebe0;
+      font-family: "Microsoft YaHei", sans-serif;
+    }
+    .page {
+      width: 95%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    .topbar {
+      margin-bottom: 20px;
+    }
+    .topbar button {
+      padding: 8px 16px;
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.1);
+      color: #f5ebe0;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-right: 10px;
+    }
+    .hero-section {
+      background: rgba(60,48,38,0.8);
+      border: 1px solid rgba(196,125,76,0.15);
+      border-radius: 16px;
+      padding: 30px;
+      text-align: center;
+      margin-bottom: 25px;
+    }
+    .hero-section h1 {
+      margin: 0 0 10px;
+      font-size: 28px;
+    }
+    .hero-section p {
+      margin: 0;
+      color: #9a8f80;
+      font-size: 14px;
+    }
+    .diff-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 12px;
+      margin-bottom: 25px;
+    }
+    .diff-card {
+      background: rgba(45,38,32,0.9);
+      border-radius: 12px;
+      padding: 15px;
+      text-align: center;
+      cursor: pointer;
+      border: 1px solid rgba(255,255,255,0.05);
+    }
+    .diff-card:hover, .diff-card.active {
+      border-color: rgba(196,125,76,0.3);
+    }
+    .diff-card .rank {
+      font-size: 12px;
+      color: #e89649;
+    }
+    .diff-card .name {
+      font-size: 15px;
+      font-weight: bold;
+      margin: 5px 0;
+    }
+    .stars {
+      font-size: 14px;
+      color: #e89649;
+    }
+    .process-card {
+      background: rgba(45,38,32,0.9);
+      border-radius: 16px;
+      padding: 25px;
+      border: 1px solid rgba(255,255,255,0.05);
+    }
+    .process-header {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    .process-title h3 {
+      margin: 0 0 5px;
+      font-size: 24px;
+    }
+    .process-title .sub {
+      color: #e89649;
+      font-size: 14px;
+      margin-bottom: 8px;
+    }
+    .process-title .desc {
+      color: #9a8f80;
+      font-size: 14px;
+    }
+    .meta {
+      text-align: right;
+    }
+    .meta-item {
+      margin-bottom: 8px;
+      font-size: 13px;
+    }
+    .meta-item .label {
+      color: #9a8f80;
+    }
+    .meta-item .value {
+      color: #f5ebe0;
+    }
+    .core-box {
+      background: rgba(212,90,41,0.1);
+      border-left: 3px solid #d45a29;
+      padding: 12px 15px;
+      margin-bottom: 20px;
+      border-radius: 0 8px 8px 0;
+    }
+    .core-box h4 {
+      margin: 0 0 5px;
+      color: #e89649;
+      font-size: 14px;
+    }
+    .core-box p {
+      margin: 0;
+      color: #9a8f80;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+    .step-item {
+      display: flex;
+      gap: 15px;
+      padding: 18px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+    .step-item:last-child {
+      border-bottom: none;
+    }
+    .step-num {
+      width: 40px;
+      height: 40px;
+      background: linear-gradient(135deg, #c47d4c, #a36235);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 16px;
+      flex-shrink: 0;
+    }
+    .step-canvas {
+      width: 160px;
+      height: 160px;
+      background: #2d251f;
+      border-radius: 10px;
+      flex-shrink: 0;
+    }
+    .step-canvas canvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+    .step-text {
+      flex: 1;
+    }
+    .step-text h4 {
+      margin: 0 0 8px;
+      font-size: 16px;
+    }
+    .step-text p {
+      margin: 0;
+      color: #9a8f80;
+      font-size: 14px;
+      line-height: 1.7;
+    }
+    @media (max-width: 768px) {
+      .diff-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+      .process-header {
+        flex-direction: column;
+        gap: 15px;
+      }
+      .meta {
+        text-align: left;
+      }
+      .step-item {
+        flex-direction: column;
+      }
+      .step-canvas {
+        width: 100%;
+        height: 180px;
+      }
+    }
+    @media (max-width: 480px) {
+      .diff-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <div class="topbar">
+      <button onclick="window.location.href='index.html'">← 返回首页</button>
+      <button onclick="window.location.href='stage-view.html'">窑器步骤图</button>
+    </div>
+    
+    <div class="hero-section">
+      <h1>窑器制作过程详解</h1>
+      <p>从选土练泥到入窑烧制，每件柴烧窑器都经历了独特的蜕变之旅</p>
+    </div>
+    
+    <div class="diff-grid" id="diffGrid"></div>
+    
+    <div class="process-card" id="processCard"></div>
+  </div>
+
+  <script>
+    var KILNS = [
+      { id:1, name:"品茗杯", sub:"手工柴烧主人杯", desc:"瑶山本土黏土制作，小巧精致的圆口杯", difficulty:2, diffText:"基础入门", core:"基础拉坯，入窑灵活。初学者可从品茗杯入手练习柴烧技艺。", stepsCount:"6道", pullMethod:"一次成型", shape:"cup", steps:[
+        { name:"练泥", desc:"从矿区采取瓷石，敲碎舂打成粉，淘洗去杂质制成泥块，揉搓排气使水分均匀。", image:"assets/process/品茗杯/step1-lianni.jpg.png" },
+        { name:"拉坯", desc:"将泥团放在转盘上，随手法拉制出杯体大致模样，小件圆器一次拉坯即可成型。", image:"assets/process/品茗杯/step2-lapi.jpg.png" },
+        { name:"修坯", desc:"将坯体放在利桶上旋转，用刀旋削使厚度适当，表里光洁。", image:"assets/process/品茗杯/step3-xiupi.jpg.png" },
+        { name:"晒坯", desc:"将成型的坯体放在木架上阴干，小件约3到7天。", image:"assets/process/品茗杯/step4-shaipi.jpg.png" },
+        { name:"入窑裸烧", desc:"3至5个日夜烧制，根据烟的走向和火焰色彩控制投柴频率和数量。", image:"assets/process/品茗杯/step5-ruyao.jpg.png" },
+        { name:"冷却出窑", desc:"封窑后期，待窑温慢慢降至常温，约5天左右即可开窑取出成品。", image:"assets/process/品茗杯/step61.png" }
+      ]},
+      { id:2, name:"公道杯", sub:"柴烧匀杯", desc:"开口敞大，杯身如小缸，一侧设出水口", difficulty:2, diffText:"基础入门", core:"器型简单开放，无需配盖，唯一技术点在于出水口的塑形需精确。", stepsCount:"6道", pullMethod:"一次拉坯+捏嘴", shape:"gongdao", steps:[
+        { name:"练泥揉泥", desc:"采集瓷石敲碎淘洗，制成泥块后揉搓排气，使泥料均匀细腻。", image:"assets/process/柴烧公道杯（茶海）/step1.png" },
+        { name:"拉坯", desc:"一次拉坯成型，注意壁厚均匀，口沿微微向外撇。", image:"assets/process/柴烧公道杯（茶海）/step2.png" },
+        { name:"捏制出水口", desc:"在杯口一侧捏出引流嘴，角度和深度影响断水效果。", image:"assets/process/柴烧公道杯（茶海）/step3.png" },
+        { name:"修坯", desc:"修整底足和杯壁，保证放置稳定。", image:"assets/process/柴烧公道杯（茶海）/step4.png" },
+        { name:"晒坯", desc:"小件约3到7天阴干。", image:"assets/process/柴烧公道杯（茶海）/step5.png" },
+        { name:"入窑烧制", desc:"柴烧作品的成败取决于土、火、柴、窑之间的关系。", image:"assets/process/柴烧公道杯（茶海）/step6.png" }
+      ]},
+      { id:3, name:"盖碗", sub:"三才盖碗", desc:"上有盖、下有托、中有碗，暗含天地人和之意", difficulty:3, diffText:"进阶挑战", core:"三件套尺寸需精确匹配。碗、盖、托在经历高温收缩后仍需严丝合缝。", stepsCount:"8道", pullMethod:"分件拉坯", shape:"gaiwan", steps:[
+        { name:"练泥", desc:"确保同一批泥料用于碗、盖、托三件，保证收缩一致。", image:"assets/process/柴烧盖碗（三才碗）/step1.png" },
+        { name:"分件拉坯", desc:"碗身、碗盖、底托需分别拉制，盖子直径需精确计算收缩后恰好扣合碗口。", image:"assets/process/柴烧盖碗（三才碗）/step2.png" },
+        { name:"修坯", desc:"三件分别修坯，把握坯体干湿程度，确保内外壁光滑平整。", image:"assets/process/柴烧盖碗（三才碗）/step3.png" },
+        { name:"晒坯", desc:"三件需同时同环境干燥，避免收缩不一致。", image:"assets/process/柴烧盖碗（三才碗）/step4.png" },
+        { name:"入窑烧制", desc:"三天两夜的烧窑过程，三件套需放置在窑内同一位置，保证色调一致。", image:"assets/process/柴烧盖碗（三才碗）/step5.png" },
+        { name:"冷却出窑", desc:"待窑温降至常温后开窑取出成品。", image:"assets/process/柴烧盖碗（三才碗）/step6.png" }
+      ]},
+      { id:4, name:"茶叶罐", sub:"密封茶仓", desc:"圆筒形或扁鼓形，带密合盖，用于储存茶叶", difficulty:3, diffText:"进阶挑战", core:"盖口密封精度。两个独立部件在经历高温收缩后仍需密合。", stepsCount:"7道", pullMethod:"分件拉坯", shape:"caddy", steps:[
+        { name:"练泥", desc:"采集瓷石敲碎淘洗，制成均匀细腻的泥块。", image:"assets/process/柴烧茶叶罐（茶仓）/step1.png" },
+        { name:"拉坯", desc:"罐身一次拉坯成型；盖子单独拉坯，精算收缩率后确定尺寸。", image:"assets/process/柴烧茶叶罐（茶仓）/step2.png" },
+        { name:"修坯", desc:"测定坯体厚薄，弹叩听声判断厚度是否合适。", image:"assets/process/柴烧茶叶罐（茶仓）/step3.png" },
+        { name:"配合试装", desc:"盖与罐体半干时反复试合，确保密封。", image:"assets/process/柴烧茶叶罐（茶仓）/step4.png" },
+        { name:"晒坯", desc:"约7到10天阴干。", image:"assets/process/柴烧茶叶罐（茶仓）/step5.png" },
+        { name:"入窑烧制", desc:"盖与罐需同位烧制，保证收缩一致。", image:"assets/process/柴烧茶叶罐（茶仓）/step6.png" }
+      ]},
+      { id:5, name:"花器", sub:"插花器皿", desc:"形态自由多样，可以是扁壶形、葫芦形或不规则雕塑形", difficulty:3, diffText:"进阶挑战", core:"视造型复杂度弹性极大。简约圆筒形花器可作为入门练习。", stepsCount:"7道", pullMethod:"综合技法", shape:"vase", steps:[
+        { name:"练泥", desc:"不同花器可能需要不同配比的陶土，以适应造型需求。", image:"assets/process/柴烧花器（插花瓶//step1.png" },
+        { name:"成型", desc:"通过拉坯、泥板成型、捏塑等方法将陶泥塑造成想要的形状。", image:"assets/process/柴烧花器（插花瓶//step2.png" },
+        { name:"修坯装饰", desc:"适当刻花或留手工痕迹增强艺术感。", image:"assets/process/柴烧花器（插花瓶//step3.png" },
+        { name:"晒坯", desc:"根据大小7到15天阴干。", image:"assets/process/柴烧花器（插花瓶//step4.png" },
+        { name:"入窑烧制", desc:"3至5个日夜烧制，投柴的速度和方式都会影响作品色泽变化。", image:"assets/process/柴烧花器（插花瓶//step5.png" },
+        { name:"冷却出窑", desc:"待窑温降至常温后开窑取出成品。", image:"assets/process/柴烧花器（插花瓶//step6.png" }
+      ]},
+      { id:6, name:"梅瓶", sub:"小口瓷瓶", desc:"小口、短颈、丰肩、瘦底，形体修长挺拔", difficulty:4, diffText:"高级技艺", core:"分段拉坯+精确接合。瓶体高挑，入窑烧制时容易变形歪斜。", stepsCount:"8道", pullMethod:"分段拉坯", shape:"meiping", steps:[
+        { name:"练泥", desc:"采集瓷石敲碎淘洗，制成均匀细腻的泥块。", image:"assets/process/柴烧梅瓶/step1.png" },
+        { name:"分段拉坯", desc:"通常需分上下两段甚至三段拉坯，先拉下半部，待半干后再拉上半部。", image:"assets/process/柴烧梅瓶/step2.png" },
+        { name:"接合", desc:"用泥浆和泥条在接合处内外加固，修整使接缝不可见。", image:"assets/process/柴烧梅瓶/step3.png" },
+        { name:"修坯", desc:"熟练掌握造型的曲线变化和烧成时各部位的收缩比。", image:"assets/process/柴烧梅瓶/step4.png" },
+        { name:"晒坯", desc:"大件瓶体需7到15天以上缓慢阴干。", image:"assets/process/柴烧梅瓶/step5.png" },
+        { name:"入窑烧制", desc:"大件需缓慢升温防止炸裂，800到1000度往往需要10个小时。", image:"assets/process/柴烧梅瓶/step6.png" },
+        { name:"冷却出窑", desc:"大件需自然冷却数日以上，急冷必裂。", image:"assets/process/柴烧梅瓶/step7.png" }
+      ]},
+      { id:7, name:"侧把壶", sub:"急须茶器", desc:"壶身扁圆或直筒型，侧面装有与壶身垂直的把手", difficulty:4, diffText:"高级技艺", core:"多部件精密接合。每个接口都是潜在的薄弱点，高温烧制时极易开裂。", stepsCount:"8道", pullMethod:"拉坯+手捏", shape:"teapot", steps:[
+        { name:"练泥", desc:"采集瓷石敲碎淘洗，制成均匀细腻的泥块。", image:"assets/process/侧把壶/1.png" },
+        { name:"壶身拉坯", desc:"在辘轳车上拉出壶身基本形态。", image:"assets/process/侧把壶/2.png" },
+        { name:"制作附件", desc:"壶嘴手工捏制，把手搓泥条弯制，壶盖单独拉坯。", image:"assets/process/侧把壶/3.png" },
+        { name:"组合接合", desc:"待各部件半干，用泥浆粘合壶嘴、把手于壶身，精调角度。", image:"assets/process/侧把壶/4.png" },
+        { name:"修坯", desc:"重点修正肩、腹、底部曲线，使过渡自然。", image:"assets/process/侧把壶/5.png" },
+        { name:"晒坯", desc:"中件壶体约需7到15天阴干。", image:"assets/process/侧把壶/6.png" },
+        { name:"入窑烧制", desc:"4天3夜不间断投柴烧到1250度后再以入碳烧法结束。", image:"assets/process/侧把壶/7.png" }
+      ]},
+      { id:8, name:"三足香炉", sub:"焚香器具", desc:"仿古鼎形，圆腹，双耳，底部三足鼎立", difficulty:4, diffText:"高级技艺", core:"三足平衡和多附件接合。三只足必须在高温收缩后仍保持等距受力。", stepsCount:"8道", pullMethod:"拉坯+捏塑", shape:"censer", steps:[
+        { name:"练泥", desc:"采集瓷石敲碎淘洗，制成均匀细腻的泥块。", image:"assets/process/柴烧三足香炉/step1.png" },
+        { name:"炉身拉坯", desc:"在辘轳车上拉出圆腹敞口的炉身。", image:"assets/process/柴烧三足香炉/step2.png" },
+        { name:"制作附件", desc:"手工捏制双耳和三足，三足需用量尺精确等分定位。", image:"assets/process/柴烧三足香炉/step3.png" },
+        { name:"接合", desc:"坯体半干状态下接合双耳和三足，确保牢固。", image:"assets/process/柴烧三足香炉/step4.png" },
+        { name:"修坯", desc:"通过旋转坯体观察线条流畅度，微调弧度。", image:"assets/process/柴烧三足香炉/step5.png" },
+        { name:"晒坯", desc:"约7到15天阴干。", image:"assets/process/柴烧三足香炉/step6.png" },
+        { name:"入窑烧制", desc:"三足着地需垫耐火材料防止粘窑，烧制3到5天。", image:"assets/process/柴烧三足香炉/step7.png" }
+      ]},
+      { id:9, name:"建窑建盏", sub:"天目茶盏", desc:"黑釉瓷外观简素，盏中斑纹形状千变万化", difficulty:5, diffText:"大师级", core:"13道工序环环相扣，含铁量极高的胎土和釉料在高温还原气氛下的反应极难控制。", stepsCount:"6道", pullMethod:"手工拉坯", shape:"jianzhan", steps:[
+        { name:"选土碎土与练泥揉泥", desc:"选用含铁量高的瓷土和釉料，经过粉碎、淘洗过滤后陈腐一段时间，再反复练泥揉泥，去除空气和杂质，使泥料致密均匀。", image:"assets/process/柴烧建盏（天目碗）/step1.png" },
+        { name:"拉坯成型", desc:"基本采用全手工拉坯，建盏器型口大足小，需掌握好器型的弧度和比例。", image:"assets/process/柴烧建盏（天目碗）/step2.png" },
+        { name:"修坯与素烧", desc:"修坯时修整圈足为浅圈足，然后将未上釉的裸坯以较低温度预热，增加坯体机械强度。", image:"assets/process/柴烧建盏（天目碗）/step3.png" },
+        { name:"配釉上釉", desc:"用天然铁釉矿加草木灰配釉，建盏工艺的一大特点是施半釉，宋代束口盏会特意修一条止釉线控制施釉范围。", image:"assets/process/柴烧建盏（天目碗）/step4.png" },
+        { name:"装窑焙烧", desc:"用匣钵覆盖建盏，以木柴为燃料在高温龙窑中烧制三天三夜，保持高温与良好的还原气氛。", image:"assets/process/柴烧建盏（天目碗）/step5.png" },
+        { name:"出窑成品", desc:"出窑后质检，因工艺限制每窑会产生瑕疵品，只有合格的产品才会出厂。", image:"assets/process/柴烧建盏（天目碗）/step6.png" }
+      ]},
+      { id:10, name:"大缸", sub:"大型容器", desc:"口径30厘米以上，深腹厚壁，气势浑厚雄壮", difficulty:5, diffText:"大师级", core:"超大分段拉坯、月级干燥、超长烧制。每一个环节都是对技艺的极限挑战。", stepsCount:"9道", pullMethod:"分3到5段拉坯", shape:"vat", steps:[
+        { name:"练泥", desc:"需大量泥料，练泥工序耗时更长，确保泥料均匀细腻。", image:"assets/process/柴烧大缸（陶缸）/step1.png" },
+        { name:"分段拉坯", desc:"通常需分3到5段拉坯，从底部开始，每段待半干后叠加拉制。", image:"assets/process/柴烧大缸（陶缸）/step2.png" },
+        { name:"逐段接合", desc:"每段之间用泥浆和泥条加固，内外抹平，壁体需极其均匀。", image:"assets/process/柴烧大缸（陶缸）/step3.png" },
+        { name:"修坯", desc:"大缸修坯难度最大，不同部位厚薄不均会导致烧制时变形或开裂。", image:"assets/process/柴烧大缸（陶缸）/step4.png" },
+        { name:"晒坯", desc:"大件需1个月以上缓慢均匀干燥，不可日晒或快速吹风。", image:"assets/process/柴烧大缸（陶缸）/step5.png" },
+        { name:"装窑", desc:"大缸占据窑内大量空间，需规划好周围器物的摆放。", image:"assets/process/柴烧大缸（陶缸）/step6.png" },
+        { name:"烧窑", desc:"需更长烧制时间可达4到5天，升温和降温速率都需极慢。", image:"assets/process/柴烧大缸（陶缸）/step7.png" },
+        { name:"冷却出窑", desc:"大件须自然冷却5天以上，等待窑内温度自然冷却后方可开窑。", image:"assets/process/柴烧大缸（陶缸）/step8.png" }
+      ]}
+    ];
+
+    function drawShape(ctx, width, height, shapeType, stepIndex) {
+      var cx = width / 2;
+      var cy = height * 0.55;
+      ctx.fillStyle = '#2d251f';
+      ctx.fillRect(0, 0, width, height);
+      ctx.fillStyle = '#3d3228';
+      ctx.fillRect(0, height * 0.65, width, height * 0.35);
+
+      var base = '#5c4a3a';
+      var light = '#7b6a5a';
+      var dry = '#8b7355';
+
+      if (shapeType === 'cup') {
+        if (stepIndex === 0) {
+          ctx.fillStyle = base;
+          ctx.beginPath(); ctx.ellipse(cx, cy, 30, 18, 0, 0, Math.PI * 2); ctx.fill();
+        } else if (stepIndex === 1) {
+          ctx.fillStyle = base;
+          ctx.beginPath(); ctx.moveTo(cx-15, cy-30); ctx.lineTo(cx+15, cy-30); ctx.lineTo(cx+18, cy+10); ctx.lineTo(cx-18, cy+10); ctx.closePath(); ctx.fill();
+        } else if (stepIndex <= 3) {
+          ctx.fillStyle = stepIndex === 2 ? light : dry;
+          ctx.beginPath(); ctx.moveTo(cx-14, cy-32); ctx.lineTo(cx+14, cy-32); ctx.lineTo(cx+17, cy+12); ctx.lineTo(cx-17, cy+12); ctx.closePath(); ctx.fill();
+        } else if (stepIndex === 4) {
+          drawKiln(ctx, cx, cy);
+        } else {
+          var g = ctx.createLinearGradient(cx-20, cy-35, cx+20, cy+15);
+          g.addColorStop(0, base); g.addColorStop(0.5, '#c47d4c'); g.addColorStop(1, dry);
+          ctx.fillStyle = g;
+          ctx.beginPath(); ctx.moveTo(cx-13, cy-35); ctx.lineTo(cx+13, cy-35); ctx.lineTo(cx+16, cy+15); ctx.lineTo(cx-16, cy+15); ctx.closePath(); ctx.fill();
+        }
+      } else if (shapeType === 'gongdao') {
+        if (stepIndex <= 2) {
+          ctx.fillStyle = base;
+          ctx.beginPath(); ctx.moveTo(cx-20, cy-18); ctx.lineTo(cx+20, cy-18); ctx.lineTo(cx+24, cy+15); ctx.lineTo(cx-24, cy+15); ctx.closePath(); ctx.fill();
+          if (stepIndex === 2) { ctx.fillStyle='#4a3d30'; ctx.beginPath(); ctx.moveTo(cx+24, cy); ctx.lineTo(cx+38, cy-5); ctx.lineTo(cx+36, cy+5); ctx.closePath(); ctx.fill(); }
+        } else if (stepIndex === 3) {
+          ctx.fillStyle = light;
+          ctx.beginPath(); ctx.moveTo(cx-18, cy-20); ctx.lineTo(cx+18, cy-20); ctx.lineTo(cx+22, cy+18); ctx.lineTo(cx-22, cy+18); ctx.closePath(); ctx.fill();
+        } else if (stepIndex === 4) {
+          drawKiln(ctx, cx, cy);
+        } else {
+          var g = ctx.createLinearGradient(cx-25, cy-20, cx+25, cy+18);
+          g.addColorStop(0, base); g.addColorStop(0.5, '#e89649'); g.addColorStop(1, dry);
+          ctx.fillStyle = g;
+          ctx.beginPath(); ctx.moveTo(cx-17, cy-23); ctx.lineTo(cx+17, cy-23); ctx.lineTo(cx+21, cy+20); ctx.lineTo(cx-21, cy+20); ctx.closePath(); ctx.fill();
+        }
+      } else if (shapeType === 'gaiwan') {
+        if (stepIndex === 0) {
+          ctx.fillStyle = base;
+          ctx.beginPath(); ctx.ellipse(cx, cy, 28, 16, 0, 0, Math.PI * 2); ctx.fill();
+        } else if (stepIndex === 1) {
+          ctx.fillStyle = base;
+          ctx.beginPath(); ctx.moveTo(cx-18, cy-15); ctx.lineTo(cx+18, cy-15); ctx.lineTo(cx+21, cy+12); ctx.lineTo(cx-21, cy+12); ctx.closePath(); ctx.fill();
+          ctx.fillStyle='#4a3d30'; ctx.beginPath(); ctx.arc(cx, cy-28, 8, 0, Math.PI*2); ctx.fill();
+          ctx.beginPath(); ctx.ellipse(cx, cy+22, 20, 5, 0, 0, Math.PI*2); ctx.fill();
+        } else if (stepIndex === 2) {
+          ctx.fillStyle = light;
+          ctx.beginPath(); ctx.moveTo(cx-16, cy-18); ctx.lineTo(cx+16, cy-18); ctx.lineTo(cx+19, cy+14); ctx.lineTo(cx-19, cy+14); ctx.closePath(); ctx.fill();
+        } else if (stepIndex === 3) {
+          drawKiln(ctx, cx, cy);
+        } else {
+          var g = ctx.createLinearGradient(cx-20, cy-18, cx+20, cy+15);
+          g.addColorStop(0, base); g.addColorStop(0.5, '#c47d4c'); g.addColorStop(1, dry);
+          ctx.fillStyle = g;
+          ctx.beginPath(); ctx.moveTo(cx-15, cy-20); ctx.lineTo(cx+15, cy-20); ctx.lineTo(cx+18, cy+16); ctx.lineTo(cx-18, cy+16); ctx.closePath(); ctx.fill();
+        }
+      } else if (shapeType === 'caddy') {
+        if (stepIndex <= 2) {
+          ctx.fillStyle = base;
+          ctx.beginPath(); ctx.moveTo(cx-14, cy-32); ctx.lineTo(cx+14, cy-32); ctx.lineTo(cx+16, cy+10); ctx.lineTo(cx-16, cy+10); ctx.closePath(); ctx.fill();
+          if (stepIndex >= 1) { ctx.fillStyle='#4a3d30'; ctx.beginPath(); ctx.ellipse(cx, cy-36, 11, 4, 0, 0, Math.PI*2); ctx.fill(); }
+        } else if (stepIndex === 3) {
+          ctx.fillStyle = light;
+          ctx.beginPath(); ctx.moveTo(cx-13, cy-34); ctx.lineTo(cx+13, cy-34); ctx.lineTo(cx+15, cy+12); ctx.lineTo(cx-15, cy+12); ctx.closePath(); ctx.fill();
+        } else if (stepIndex === 4) {
+          drawKiln(ctx, cx, cy);
+        } else {
+          var g = ctx.createLinearGradient(cx-20, cy-35, cx+20, cy+12);
+          g.addColorStop(0, base); g.addColorStop(0.5, '#e89649'); g.addColorStop(1, dry);
+          ctx.fillStyle = g;
+          ctx.beginPath(); ctx.moveTo(cx-12, cy-36); ctx.lineTo(cx+12, cy-36); ctx.lineTo(cx+14, cy+14); ctx.lineTo(cx-14, cy+14); ctx.closePath(); ctx.fill();
+        }
+      } else if (shapeType === 'vase') {
+        if (stepIndex === 0) {
+          ctx.fillStyle = base;
+          ctx.beginPath(); ctx.ellipse(cx, cy, 26, 18, 0, 0, Math.PI * 2); ctx.fill();
+        } else if (stepIndex === 1) {
+          ctx.fillStyle = base;
+          ctx.beginPath(); ctx.moveTo(cx-6, cy-42); ctx.lineTo(cx+6, cy-42); ctx.lineTo(cx+20, cy+12); ctx.lineTo(cx-20, cy+12); ctx.closePath(); ctx.fill();
+        } else if (stepIndex === 2) {
+          ctx.fillStyle = light;
+          ctx.beginPath(); ctx.moveTo(cx-5, cy-45); ctx.lineTo(cx+5, cy-45); ctx.lineTo(cx+18, cy+14); ctx.lineTo(cx-18, cy+14); ctx.closePath(); ctx.fill();
+        } else if (stepIndex === 3) {
+          drawKiln(ctx, cx, cy);
+        } else {
+          var g = ctx.createLinearGradient(cx-25, cy-48, cx+25, cy+15);
+          g.addColorStop(0, base); g.addColorStop(0.4, '#c47d4c'); g.addColorStop(0.7, '#e89649'); g.addColorStop(1, dry);
+          ctx.fillStyle = g;
+          ctx.beginPath(); ctx.moveTo(cx-4, cy-50); ctx.lineTo(cx+4, cy-50); ctx.lineTo(cx+16, cy+16); ctx.lineTo(cx-16, cy+16); ctx.closePath(); ctx.fill();
+        }
+      } else if (shapeType === 'meiping') {
+        if (stepIndex === 0) {
+          ctx.fillStyle = base;
+          ctx.beginPath(); ctx.ellipse(cx, cy, 30, 16, 0, 0, Math.PI * 2); ctx.fill();
+        } else if (stepIndex === 1) {
+          ctx.fillStyle = base;
+          ctx.beginPath(); ctx.moveTo(cx-20, cy+6); ctx.lineTo(cx+20, cy+6); ctx.lineTo(cx+16, cy-25); ctx.lineTo(cx-16, cy-25); ctx.closePath(); ctx.fill();
+        } else if (stepIndex === 2) {
+          ctx.fillStyle = base;
+          ctx.beginPath(); ctx.moveTo(cx-18, cy+8); ctx.lineTo(cx+18, cy+8); ctx.lineTo(cx+22, cy-48); ctx.lineTo(cx-22, cy-48); ctx.closePath(); ctx.fill();
+        } else if (stepIndex === 3) {
+          ctx.fillStyle = light;
+          ctx.beginPath(); ctx.moveTo(cx-16, cy+10); ctx.lineTo(cx+16, cy+10); ctx.lineTo(cx+20, cy-52); ctx.lineTo(cx-20, cy-52); ctx.closePath(); ctx.fill();
+        } else if (stepIndex === 4) {
+          ctx.fillStyle = dry;
+          ctx.beginPath(); ctx.moveTo(cx-14, cy+12); ctx.lineTo(cx+14, cy+12); ctx.lineTo(cx+18, cy-55); ctx.lineTo(cx-18, cy-55); ctx.closePath(); ctx.fill();
+        } else if (stepIndex === 5) {
+          drawKiln(ctx, cx, cy);
+        } else {
+          var g = ctx.createLinearGradient(cx-25, cy-55, cx+25, cy+10);
+          g.addColorStop(0, base); g.addColorStop(0.3, dry); g.addColorStop(0.6, '#c47d4c'); g.addColorStop(1, '#8b5a3c');
+          ctx.fillStyle = g;
+          ctx.beginPath(); ctx.moveTo(cx-4, cy-58); ctx.lineTo(cx+4, cy-58); ctx.lineTo(cx+22, cy+5); ctx.lineTo(cx+16, cy+18); ctx.lineTo(cx-16, cy+18); ctx.lineTo(cx-22, cy+5); ctx.closePath(); ctx.fill();
+        }
+      } else if (shapeType === 'teapot') {
+        if (stepIndex === 0) {
+          ctx.fillStyle = base;
+          ctx.beginPath(); ctx.ellipse(cx, cy, 30, 16, 0, 0, Math.PI * 2); ctx.fill();
+        } else if (stepIndex === 1) {
+          ctx.fillStyle = base;
+          ctx.beginPath(); ctx.moveTo(cx-15, cy-25); ctx.lineTo(cx+15, cy-25); ctx.lineTo(cx+17, cy+8); ctx.lineTo(cx-17, cy+8); ctx.closePath(); ctx.fill();
+        } else if (stepIndex === 2) {
+          ctx.fillStyle = base;
+          ctx.beginPath(); ctx.moveTo(cx-15, cy-25); ctx.lineTo(cx+15, cy-25); ctx.lineTo(cx+17, cy+8); ctx.lineTo(cx-17, cy+8); ctx.closePath(); ctx.fill();
+          ctx.fillStyle='#4a3d30'; ctx.beginPath(); ctx.moveTo(cx-25, cy-5); ctx.lineTo(cx-38, cy-5); ctx.lineTo(cx-38, cy+5); ctx.lineTo(cx-25, cy+5); ctx.closePath(); ctx.fill();
+          ctx.beginPath(); ctx.moveTo(cx+17, cy-3); ctx.lineTo(cx+28, cy-8); ctx.lineTo(cx+26, cy+2); ctx.closePath(); ctx.fill();
+        } else if (stepIndex === 3) {
+          ctx.fillStyle = light;
+          ctx.beginPath(); ctx.moveTo(cx-13, cy-28); ctx.lineTo(cx+13, cy-28); ctx.lineTo(cx+15, cy+10); ctx.lineTo(cx-15, cy+10); ctx.closePath(); ctx.fill();
+        } else if (stepIndex === 4) {
+          ctx.fillStyle = dry;
+          ctx.beginPath(); ctx.moveTo(cx-12, cy-30); ctx.lineTo(cx+12, cy-30); ctx.lineTo(cx+14, cy+12); ctx.lineTo(cx-14, cy+12); ctx.closePath(); ctx.fill();
+        } else if (stepIndex === 5) {
+          drawKiln(ctx, cx, cy);
+        } else {
+          var g = ctx.createLinearGradient(cx-20, cy-30, cx+20, cy+10);
+          g.addColorStop(0, base); g.addColorStop(0.5, '#e89649'); g.addColorStop(1, dry);
+          ctx.fillStyle = g;
+          ctx.beginPath(); ctx.moveTo(cx-12, cy-30); ctx.lineTo(cx+12, cy-30); ctx.lineTo(cx+14, cy+12); ctx.lineTo(cx-14, cy+12); ctx.closePath(); ctx.fill();
+        }
+      } else if (shapeType === 'censer') {
+        if (stepIndex === 0) {
+          ctx.fillStyle = base;
+          ctx.beginPath(); ctx.ellipse(cx, cy, 30, 16, 0, 0, Math.PI * 2); ctx.fill();
+        } else if (stepIndex === 1) {
+          ctx.fillStyle = base;
+          ctx.beginPath(); ctx.moveTo(cx-20, cy-10); ctx.lineTo(cx+20, cy-10); ctx.lineTo(cx+24, cy+12); ctx.lineTo(cx-24, cy+12); ctx.closePath(); ctx.fill();
+        } else if (stepIndex === 2) {
+          ctx.fillStyle = base;
+          ctx.beginPath(); ctx.moveTo(cx-20, cy-10); ctx.lineTo(cx+20, cy-10); ctx.lineTo(cx+24, cy+12); ctx.lineTo(cx-24, cy+12); ctx.closePath(); ctx.fill();
+          ctx.fillStyle='#4a3d30'; ctx.beginPath(); ctx.arc(cx-16, cy-10, 6, 0, Math.PI*2); ctx.arc(cx+16, cy-10, 6, 0, Math.PI*2); ctx.fill();
+        } else if (stepIndex === 3) {
+          ctx.fillStyle = light;
+          ctx.beginPath(); ctx.moveTo(cx-18, cy-12); ctx.lineTo(cx+18, cy-12); ctx.lineTo(cx+22, cy+14); ctx.lineTo(cx-22, cy+14); ctx.closePath(); ctx.fill();
+        } else if (stepIndex === 4) {
+          ctx.fillStyle = dry;
+          ctx.beginPath(); ctx.moveTo(cx-16, cy-14); ctx.lineTo(cx+16, cy-14); ctx.lineTo(cx+20, cy+16); ctx.lineTo(cx-20, cy+16); ctx.closePath(); ctx.fill();
+        } else if (stepIndex === 5) {
+          drawKiln(ctx, cx, cy);
+        } else {
+          var g = ctx.createLinearGradient(cx-20, cy-15, cx+20, cy+15);
+          g.addColorStop(0, base); g.addColorStop(0.5, '#c47d4c'); g.addColorStop(1, '#8b5a3c');
+          ctx.fillStyle = g;
+          ctx.beginPath(); ctx.moveTo(cx-16, cy-15); ctx.lineTo(cx+16, cy-15); ctx.lineTo(cx+20, cy+16); ctx.lineTo(cx-20, cy+16); ctx.closePath(); ctx.fill();
+        }
+      } else if (shapeType === 'jianzhan') {
+        if (stepIndex <= 3) {
+          ctx.fillStyle = base;
+          ctx.beginPath(); ctx.ellipse(cx, cy, 32, 18, 0, 0, Math.PI * 2); ctx.fill();
+        } else if (stepIndex <= 5) {
+          ctx.fillStyle = stepIndex === 4 ? base : light;
+          ctx.beginPath(); ctx.moveTo(cx-18, cy-28); ctx.lineTo(cx+18, cy-28); ctx.lineTo(cx+21, cy+10); ctx.lineTo(cx-21, cy+10); ctx.closePath(); ctx.fill();
+        } else if (stepIndex === 6) {
+          ctx.fillStyle = '#4a3d30';
+          ctx.beginPath(); ctx.moveTo(cx-16, cy-32); ctx.lineTo(cx+16, cy-32); ctx.lineTo(cx+19, cy+12); ctx.lineTo(cx-19, cy+12); ctx.closePath(); ctx.fill();
+        } else if (stepIndex === 7) {
+          ctx.fillStyle = '#3d3228';
+          ctx.beginPath(); ctx.moveTo(cx-15, cy-35); ctx.lineTo(cx+15, cy-35); ctx.lineTo(cx+18, cy+14); ctx.lineTo(cx-18, cy+14); ctx.closePath(); ctx.fill();
+        } else if (stepIndex === 8) {
+          ctx.fillStyle = '#2d251f';
+          ctx.beginPath(); ctx.moveTo(cx-14, cy-36); ctx.lineTo(cx+14, cy-36); ctx.lineTo(cx+17, cy+15); ctx.lineTo(cx-17, cy+15); ctx.closePath(); ctx.fill();
+        } else if (stepIndex === 9) {
+          drawKiln(ctx, cx, cy);
+        } else {
+          ctx.fillStyle = '#1a1613';
+          ctx.beginPath(); ctx.moveTo(cx-14, cy-38); ctx.lineTo(cx+14, cy-38); ctx.lineTo(cx+17, cy+16); ctx.lineTo(cx-17, cy+16); ctx.closePath(); ctx.fill();
+          ctx.strokeStyle = '#c47d4c'; ctx.globalAlpha = 0.6; ctx.lineWidth = 2;
+          for (var i=0; i<8; i++) { ctx.beginPath(); ctx.moveTo(cx-12+i*3, cy-32); ctx.lineTo(cx-10+i*3, cy+2); ctx.stroke(); }
+          ctx.globalAlpha = 1;
+        }
+      } else if (shapeType === 'vat') {
+        if (stepIndex === 0) {
+          ctx.fillStyle = base;
+          ctx.beginPath(); ctx.ellipse(cx, cy, 36, 22, 0, 0, Math.PI * 2); ctx.fill();
+        } else if (stepIndex === 1) {
+          ctx.fillStyle = base;
+          ctx.beginPath(); ctx.moveTo(cx-28, cy+5); ctx.lineTo(cx+28, cy+5); ctx.lineTo(cx+24, cy-22); ctx.lineTo(cx-24, cy-22); ctx.closePath(); ctx.fill();
+        } else if (stepIndex === 2) {
+          ctx.fillStyle = base;
+          ctx.beginPath(); ctx.moveTo(cx-26, cy+8); ctx.lineTo(cx+26, cy+8); ctx.lineTo(cx+30, cy-52); ctx.lineTo(cx-30, cy-52); ctx.closePath(); ctx.fill();
+        } else if (stepIndex === 3) {
+          ctx.fillStyle = light;
+          ctx.beginPath(); ctx.moveTo(cx-24, cy+10); ctx.lineTo(cx+24, cy+10); ctx.lineTo(cx+28, cy-55); ctx.lineTo(cx-28, cy-55); ctx.closePath(); ctx.fill();
+        } else if (stepIndex === 4) {
+          ctx.fillStyle = dry;
+          ctx.beginPath(); ctx.moveTo(cx-22, cy+12); ctx.lineTo(cx+22, cy+12); ctx.lineTo(cx+26, cy-58); ctx.lineTo(cx-26, cy-58); ctx.closePath(); ctx.fill();
+        } else if (stepIndex === 5) {
+          ctx.fillStyle = '#3d3228';
+          ctx.beginPath(); ctx.moveTo(cx-45, cy+15); ctx.lineTo(cx+45, cy+15); ctx.lineTo(cx+38, cy-60); ctx.lineTo(cx-38, cy-60); ctx.closePath(); ctx.fill();
+        } else if (stepIndex === 6) {
+          drawKiln(ctx, cx, cy);
+        } else {
+          var g = ctx.createLinearGradient(cx-30, cy-62, cx+30, cy+12);
+          g.addColorStop(0, base); g.addColorStop(0.2, '#d45a29'); g.addColorStop(0.5, '#c47d4c'); g.addColorStop(0.8, '#e89649'); g.addColorStop(1, '#8b5a3c');
+          ctx.fillStyle = g;
+          ctx.beginPath(); ctx.moveTo(cx-6, cy-65); ctx.lineTo(cx+6, cy-65); ctx.lineTo(cx+32, cy+5); ctx.lineTo(cx+25, cy+18); ctx.lineTo(cx-25, cy+18); ctx.lineTo(cx-32, cy+5); ctx.closePath(); ctx.fill();
+        }
+      }
+    }
+
+    function drawKiln(ctx, cx, cy) {
+      ctx.fillStyle = '#2d251f';
+      ctx.beginPath(); ctx.moveTo(cx-50, cy+35); ctx.lineTo(cx+50, cy+35); ctx.lineTo(cx+45, cy-48); ctx.lineTo(cx-45, cy-48); ctx.closePath(); ctx.fill();
+      ctx.fillStyle = '#d45a29';
+      ctx.beginPath(); ctx.arc(cx, cy, 18, 0, Math.PI*2); ctx.fill();
+      ctx.fillStyle = '#e89649'; ctx.globalAlpha = 0.5;
+      ctx.beginPath(); ctx.arc(cx-12, cy+3, 8, 0, Math.PI*2); ctx.arc(cx+10, cy-6, 6, 0, Math.PI*2); ctx.fill();
+      ctx.globalAlpha = 1;
+    }
+
+    function init() {
+      var grid = document.getElementById('diffGrid');
+      if (!grid) return;
+      
+      KILNS.sort(function(a, b) { return b.difficulty - a.difficulty; });
+      
+      for (var i=0; i<KILNS.length; i++) {
+        var k = KILNS[i];
+        var card = document.createElement('div');
+        card.className = 'diff-card';
+        card.id = 'card-'+k.id;
+        card.onclick = (function(kiln) { return function() { showProcess(kiln); }; })(k);
+        
+        var stars = '';
+        for (var j=1; j<=5; j++) { stars += (j <= k.difficulty) ? '★' : '☆'; }
+        
+        card.innerHTML = '<div class="rank">No.'+(i+1)+'</div><div class="name">'+k.name+'</div><div class="stars">'+stars+'</div><div style="font-size:12px;color:#9a8f80">'+k.stepsCount+'工序</div>';
+        grid.appendChild(card);
+      }
+      
+      showProcess(KILNS[0]);
+    }
+
+    function showProcess(kiln) {
+      var cards = document.querySelectorAll('.diff-card');
+      for (var i=0; i<cards.length; i++) { cards[i].classList.remove('active'); }
+      document.getElementById('card-'+kiln.id).classList.add('active');
+      
+      var card = document.getElementById('processCard');
+      if (!card) return;
+      
+      var stars = '';
+      for (var j=1; j<=5; j++) { stars += (j <= kiln.difficulty) ? '★' : '☆'; }
+      
+      var stepsHtml = '';
+      for (var s=0; s<kiln.steps.length; s++) {
+        var step = kiln.steps[s];
+        var imgHtml = '';
+        if (step.image) {
+          imgHtml = '<img src="'+step.image+'" alt="'+step.name+'" style="width:100%;height:100%;object-fit:cover;border-radius:10px;">';
+        } else {
+          imgHtml = '<canvas id="canvas-'+kiln.id+'-'+s+'"></canvas>';
+        }
+        stepsHtml += '<div class="step-item"><div class="step-num">'+(s+1)+'</div><div class="step-canvas">'+imgHtml+'</div><div class="step-text"><h4>'+step.name+'</h4><p>'+step.desc+'</p></div></div>';
+      }
+      
+      card.innerHTML = '<div class="process-header"><div class="process-title"><h3>'+kiln.name+'</h3><div class="sub">'+kiln.sub+'</div><div class="desc">'+kiln.desc+'</div></div><div class="meta"><div class="meta-item"><span class="label">难度：</span><span class="value">'+stars+' '+kiln.diffText+'</span></div><div class="meta-item"><span class="label">工序：</span><span class="value">'+kiln.stepsCount+'</span></div><div class="meta-item"><span class="label">拉坯：</span><span class="value">'+kiln.pullMethod+'</span></div></div></div><div class="core-box"><h4>核心难点</h4><p>'+kiln.core+'</p></div>'+stepsHtml;
+      
+      setTimeout(function() {
+        for (var s=0; s<kiln.steps.length; s++) {
+          if (kiln.steps[s].image) continue;
+          var canvas = document.getElementById('canvas-'+kiln.id+'-'+s);
+          if (canvas) {
+            var ctx = canvas.getContext('2d');
+            var rect = canvas.getBoundingClientRect();
+            canvas.width = rect.width * 2;
+            canvas.height = rect.height * 2;
+            ctx.scale(2, 2);
+            drawShape(ctx, rect.width, rect.height, kiln.shape, s);
+          }
+        }
+      }, 100);
+    }
+
+    window.onload = function() {
+      init();
+    };
+  </script>
+</body>
+</html>

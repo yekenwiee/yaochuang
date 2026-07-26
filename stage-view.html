@@ -1,0 +1,1154 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>柴烧窑器制作步骤 - 云端等开窑</title>
+  <style>
+    :root {
+      --bg: #1a1613;
+      --panel: rgba(45, 38, 32, 0.9);
+      --panel-light: rgba(60, 48, 38, 0.8);
+      --text: #f5ebe0;
+      --muted: #9a8f80;
+      --primary: #c47d4c;
+      --accent: #e89649;
+      --fire: #d45a29;
+      --soil: #5c4a3a;
+      --shadow: 0 12px 40px rgba(0, 0, 0, 0.45);
+      --radius: 16px;
+    }
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--text);
+      font-family: "Microsoft YaHei", "PingFang SC", "Noto Sans SC", system-ui, sans-serif;
+      background:
+        radial-gradient(circle at 12% 10%, rgba(196, 125, 76, 0.1), transparent 35%),
+        radial-gradient(circle at 82% 4%, rgba(232, 150, 73, 0.06), transparent 30%),
+        linear-gradient(145deg, #1a1613 0%, #251f1a 48%, #1f1a16 100%);
+    }
+    .page {
+      width: min(1200px, 100%);
+      margin: 0 auto;
+      padding: 20px;
+    }
+    .topbar {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+    .topbar button {
+      border: 0;
+      cursor: pointer;
+      color: var(--text);
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 8px;
+      padding: 8px 16px;
+      font-size: 14px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      transition: all 0.15s ease;
+    }
+    .topbar button:hover {
+      background: rgba(255, 255, 255, 0.12);
+    }
+    .hero-section {
+      padding: 24px 32px;
+      border-radius: var(--radius);
+      background: var(--panel-light);
+      border: 1px solid rgba(196, 125, 76, 0.15);
+      margin-bottom: 24px;
+    }
+    .hero-section h1 {
+      margin: 0 0 8px;
+      font-size: 28px;
+      color: #f5ebe0;
+    }
+    .hero-section p {
+      margin: 0;
+      font-size: 14px;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+    .section-header h2 {
+      margin: 0;
+      font-size: 20px;
+      color: #f5ebe0;
+    }
+    .section-header .note {
+      font-size: 13px;
+      color: var(--muted);
+    }
+    .kiln-card {
+      background: var(--panel);
+      border-radius: var(--radius);
+      padding: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      margin-bottom: 20px;
+    }
+    .kiln-card:hover {
+      border-color: rgba(196, 125, 76, 0.25);
+    }
+    .kiln-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 16px;
+    }
+    .kiln-title {
+      display: flex;
+      flex-direction: column;
+    }
+    .kiln-title h3 {
+      margin: 0 0 4px;
+      font-size: 22px;
+      color: #f5ebe0;
+    }
+    .kiln-title .sub-name {
+      font-size: 14px;
+      color: var(--accent);
+      margin-bottom: 4px;
+    }
+    .kiln-title .desc {
+      font-size: 13px;
+      color: var(--muted);
+    }
+    .kiln-difficulty {
+      font-size: 18px;
+    }
+    .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 12px;
+    }
+    .step-card {
+      background: rgba(60, 48, 38, 0.6);
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      transition: all 0.2s ease;
+    }
+    .step-card:hover {
+      border-color: rgba(196, 125, 76, 0.2);
+      transform: translateY(-2px);
+    }
+    .step-canvas {
+      width: 100%;
+      height: 140px;
+      background: linear-gradient(180deg, #2d251f 0%, #251f1a 100%);
+    }
+    .step-canvas canvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+    .step-info {
+      padding: 10px 12px;
+      text-align: center;
+    }
+    .step-info .step-num {
+      font-size: 12px;
+      color: var(--accent);
+      margin-bottom: 4px;
+    }
+    .step-info .step-name {
+      font-size: 13px;
+      color: #f5ebe0;
+    }
+    .detail-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.95);
+      z-index: 100;
+      padding: 24px;
+      overflow-y: auto;
+    }
+    .detail-modal.active {
+      display: block;
+    }
+    .detail-header {
+      max-width: 900px;
+      margin: 0 auto 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .detail-header h2 {
+      margin: 0;
+      font-size: 28px;
+      color: #f5ebe0;
+    }
+    .close-btn {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      border: 0;
+      cursor: pointer;
+      color: var(--text);
+      background: rgba(255, 255, 255, 0.1);
+      font-size: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s ease;
+    }
+    .close-btn:hover {
+      background: rgba(255, 255, 255, 0.15);
+    }
+    .detail-steps {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .detail-step {
+      display: flex;
+      gap: 20px;
+      padding: 20px;
+      background: var(--panel);
+      border-radius: var(--radius);
+      margin-bottom: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+    }
+    .detail-step .step-num {
+      flex-shrink: 0;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--primary), #a36235);
+      color: #fff;
+      font-size: 18px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 12px rgba(196, 125, 76, 0.3);
+    }
+    .detail-step .step-canvas {
+      flex-shrink: 0;
+      width: 160px;
+      height: 160px;
+      border-radius: 12px;
+    }
+    .detail-step .step-text {
+      flex: 1;
+      padding-top: 4px;
+    }
+    .detail-step .step-text h4 {
+      margin: 0 0 8px;
+      font-size: 18px;
+      color: #f5ebe0;
+    }
+    .detail-step .step-text p {
+      margin: 0;
+      font-size: 14px;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+    @media (max-width: 1024px) {
+      .steps-grid {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+    @media (max-width: 768px) {
+      .steps-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+      .detail-step {
+        flex-direction: column;
+      }
+      .detail-step .step-canvas {
+        width: 100%;
+        height: 180px;
+      }
+      .detail-header {
+        flex-direction: column;
+        gap: 12px;
+        text-align: center;
+      }
+    }
+    @media (max-width: 480px) {
+      .steps-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <div class="topbar">
+      <button onclick="window.location.href='index.html'">← 返回云端等开窑</button>
+    </div>
+    
+    <section class="hero-section">
+      <h1>窑器制作步骤图</h1>
+      <p>以下为 Canvas 动态绘制的各窑器制作步骤预览图，用于查看窑器从泥料到成品的形态变化过程。</p>
+    </section>
+    
+    <section class="section-header">
+      <h2>十种窑器制作步骤</h2>
+      <span class="note">点击卡片查看详细步骤说明</span>
+    </section>
+    
+    <div id="kilnContainer">
+    </div>
+  </div>
+
+  <div class="detail-modal" id="detailModal">
+    <div class="detail-header">
+      <h2 id="detailTitle">品茗杯</h2>
+      <button class="close-btn" onclick="closeModal()">×</button>
+    </div>
+    <div class="detail-steps" id="detailSteps">
+    </div>
+  </div>
+
+  <script>
+    var KILNS = [
+      {
+        id: 1,
+        name: "品茗杯",
+        subName: "手工柴烧",
+        desc: "瑶山本土黏土 + 手工拉坯成型",
+        difficulty: "★★☆☆☆",
+        steps: [
+          { name: "练泥", desc: "采集瓷石敲碎舂打成粉，淘洗去杂质制成泥块，揉搓排气使水分均匀。" },
+          { name: "拉坯", desc: "将泥团放在转盘上，随手法拉制出杯体大致模样，小件圆器一次成型。" },
+          { name: "修坯", desc: "将坯体放在利桶上旋转，用刀旋削使厚度适当，表里光洁。" },
+          { name: "晒坯", desc: "将成型的坯体放在木架上阴干，小件约3到7天。" },
+          { name: "入窑烧制", desc: "3至5个日夜烧制，根据烟的走向和火焰色彩控制投柴频率。" },
+          { name: "冷却出窑", desc: "待窑温慢慢降至常温，约5天左右即可开窑取出成品。" }
+        ]
+      },
+      {
+        id: 2,
+        name: "公道杯",
+        subName: "柴烧匀杯",
+        desc: "一体成型 + 捏制出水口",
+        difficulty: "★★☆☆☆",
+        steps: [
+          { name: "练泥揉泥", desc: "采集瓷石敲碎淘洗，制成泥块后揉搓排气，使泥料均匀细腻。" },
+          { name: "拉坯", desc: "一次拉坯成型，注意壁厚均匀，口沿微微向外撇。" },
+          { name: "捏制出水口", desc: "在杯口一侧捏出引流嘴，保证出汤利落、断水干净。" },
+          { name: "修坯", desc: "修整底足和杯壁，保证放置稳定。" },
+          { name: "晒坯", desc: "小件约3到7天阴干。" },
+          { name: "入窑烧制", desc: "柴烧作品的成败取决于土、火、柴、窑之间的关系。" }
+        ]
+      },
+      {
+        id: 3,
+        name: "盖碗",
+        subName: "三才盖碗",
+        desc: "三件套同步制作 + 精算收缩率",
+        difficulty: "★★★☆☆",
+        steps: [
+          { name: "练泥", desc: "确保同一批泥料用于碗、盖、托三件，保证收缩一致。" },
+          { name: "分件拉坯", desc: "碗身、碗盖、底托分别拉制，盖子直径需精确计算收缩后恰好扣合碗口。" },
+          { name: "修坯", desc: "三件分别修坯，把握坯体干湿程度，确保内外壁光滑平整。" },
+          { name: "晒坯", desc: "三件需同时同环境干燥，避免收缩不一致。" },
+          { name: "入窑烧制", desc: "三天两夜的烧窑过程，三件套需放置在窑内同一位置，保证色调一致。" }
+        ]
+      },
+      {
+        id: 4,
+        name: "茶叶罐",
+        subName: "密封茶仓",
+        desc: "罐身拉坯 + 盖体精密配合",
+        difficulty: "★★★☆☆",
+        steps: [
+          { name: "练泥", desc: "采集瓷石敲碎淘洗，制成均匀细腻的泥块。" },
+          { name: "拉坯", desc: "罐身一次拉坯成型；盖子单独拉坯，精算收缩率后确定尺寸。" },
+          { name: "修坯", desc: "测定坯体厚薄，弹叩听声判断厚度是否合适。" },
+          { name: "配合试装", desc: "盖与罐体半干时反复试合，确保密封。" },
+          { name: "晒坯", desc: "约7到10天阴干。" },
+          { name: "入窑烧制", desc: "盖与罐需同位烧制，保证收缩一致。" }
+        ]
+      },
+      {
+        id: 5,
+        name: "花器",
+        subName: "插花器皿",
+        desc: "多种成型技法 + 手工装饰",
+        difficulty: "★★★☆☆",
+        steps: [
+          { name: "练泥", desc: "不同花器可能需要不同配比的陶土，以适应造型需求。" },
+          { name: "成型", desc: "通过拉坯、泥板成型、捏塑等方法将陶泥塑造成想要的形状。" },
+          { name: "修坯装饰", desc: "适当刻花或留手工痕迹增强艺术感。" },
+          { name: "晒坯", desc: "根据大小7到15天阴干。" },
+          { name: "入窑烧制", desc: "3至5个日夜烧制，投柴的速度和方式都会影响作品色泽变化。" }
+        ]
+      },
+      {
+        id: 6,
+        name: "梅瓶",
+        subName: "小口瓷瓶",
+        desc: "分段拉坯 + 无缝接合",
+        difficulty: "★★★★☆",
+        steps: [
+          { name: "练泥", desc: "采集瓷石敲碎淘洗，制成均匀细腻的泥块。" },
+          { name: "分段拉坯", desc: "通常需分上下两段甚至三段拉坯，先拉下半部，待半干后再拉上半部。" },
+          { name: "接合", desc: "用泥浆和泥条在接合处内外加固，修整使接缝不可见。" },
+          { name: "修坯", desc: "熟练掌握造型的曲线变化和烧成时各部位的收缩比。" },
+          { name: "晒坯", desc: "大件瓶体需7到15天以上缓慢阴干。" },
+          { name: "入窑烧制", desc: "大件需缓慢升温防止炸裂，800到1000度往往需要10个小时。" },
+          { name: "冷却出窑", desc: "大件需自然冷却数日以上，急冷必裂。" }
+        ]
+      },
+      {
+        id: 7,
+        name: "侧把壶",
+        subName: "茶器茶具",
+        desc: "壶身拉坯 + 附件手工制作",
+        difficulty: "★★★★☆",
+        steps: [
+          { name: "练泥", desc: "采集瓷石敲碎淘洗，制成均匀细腻的泥块。" },
+          { name: "壶身拉坯", desc: "在辘轳车上拉出壶身基本形态。" },
+          { name: "制作附件", desc: "壶嘴手工捏制，把手搓泥条弯制，壶盖单独拉坯。" },
+          { name: "组合接合", desc: "待各部件半干，用泥浆粘合壶嘴、把手于壶身，精调角度。" },
+          { name: "修坯", desc: "重点修正肩、腹、底部曲线，使过渡自然。" },
+          { name: "晒坯", desc: "中件壶体约需7到15天阴干。" },
+          { name: "入窑烧制", desc: "4天3夜不间断投柴烧到1250度后再以入碳烧法结束。" }
+        ]
+      },
+      {
+        id: 8,
+        name: "三足香炉",
+        subName: "焚香器具",
+        desc: "圆腹敞口 + 三足等分定位",
+        difficulty: "★★★★☆",
+        steps: [
+          { name: "练泥", desc: "采集瓷石敲碎淘洗，制成均匀细腻的泥块。" },
+          { name: "炉身拉坯", desc: "在辘轳车上拉出圆腹敞口的炉身。" },
+          { name: "制作附件", desc: "手工捏制双耳和三足，三足需用量尺精确等分定位。" },
+          { name: "接合", desc: "坯体半干状态下接合双耳和三足，确保牢固。" },
+          { name: "修坯", desc: "通过旋转坯体观察线条流畅度，微调弧度。" },
+          { name: "晒坯", desc: "约7到15天阴干。" },
+          { name: "入窑烧制", desc: "三足着地需垫耐火材料防止粘窑，烧制3到5天。" }
+        ]
+      },
+      {
+        id: 9,
+        name: "建窑建盏",
+        subName: "天目茶盏",
+        desc: "高含铁釉料 + 独特斑纹",
+        difficulty: "★★★★★",
+        steps: [
+          { name: "选土选矿", desc: "建盏的釉料、胎土都需含铁量高，这是形成独特斑纹的关键。" },
+          { name: "碎土", desc: "将泥料、釉料装入水碓中进行粉碎处理。" },
+          { name: "淘洗过滤", desc: "泥料或釉料的粗细程度要适中，过筛后入浆池或釉池。" },
+          { name: "陈腐", desc: "将泥料放置在不见日光的室内，保持一定温湿度储存一段时间。" },
+          { name: "练泥揉泥", desc: "进一步去除黏土中的空气和杂质，使泥料致密，湿度均匀。" },
+          { name: "拉坯", desc: "基本采用全手工拉坯。" },
+          { name: "修坯", desc: "传统建盏器形的主流修足方式为浅圈足。" },
+          { name: "素烧", desc: "将未上釉的裸坯以较低温度预热，增加坯体强度。" },
+          { name: "配釉上釉", desc: "施半釉，宋代束口盏会特意修一条止釉线控制施釉范围。" },
+          { name: "装窑烧制", desc: "用匣钵覆盖建盏，以木柴作为燃料，连续烧制三天三夜。" },
+          { name: "出窑", desc: "出窑后质检，合格的产品才会出厂。" }
+        ]
+      },
+      {
+        id: 10,
+        name: "大缸",
+        subName: "大型容器",
+        desc: "分段拉坯 + 逐段叠加",
+        difficulty: "★★★★★",
+        steps: [
+          { name: "练泥", desc: "需大量泥料，练泥工序耗时更长，确保泥料均匀细腻。" },
+          { name: "分段拉坯", desc: "通常需分3到5段拉坯，从底部开始，每段待半干后叠加拉制。" },
+          { name: "逐段接合", desc: "每段之间用泥浆和泥条加固，内外抹平，壁体需极其均匀。" },
+          { name: "修坯", desc: "大缸修坯难度最大，不同部位厚薄不均会导致烧制时变形或开裂。" },
+          { name: "晒坯", desc: "大件需1个月以上缓慢均匀干燥，不可日晒或快速吹风。" },
+          { name: "装窑", desc: "大缸占据窑内大量空间，需规划好周围器物的摆放。" },
+          { name: "烧窑", desc: "需更长烧制时间可达4到5天，升温和降温速率都需极慢。" },
+          { name: "冷却出窑", desc: "大件须自然冷却5天以上，等待窑内温度自然冷却后方可开窑。" }
+        ]
+      }
+    ];
+
+    var shapeMap = {
+      1: 'cup',
+      2: 'gongdao',
+      3: 'gaiwan',
+      4: 'caddy',
+      5: 'vase',
+      6: 'meiping',
+      7: 'teapot',
+      8: 'censer',
+      9: 'jianzhan',
+      10: 'vat'
+    };
+
+    function drawKiln(ctx, cx, cy) {
+      var fireColor = '#d45a29';
+      var glowColor = '#e89649';
+      ctx.fillStyle = '#2d251f';
+      ctx.beginPath();
+      ctx.moveTo(cx - 50, cy + 30);
+      ctx.lineTo(cx + 50, cy + 30);
+      ctx.lineTo(cx + 45, cy - 50);
+      ctx.lineTo(cx - 45, cy - 50);
+      ctx.closePath();
+      ctx.fill();
+      ctx.fillStyle = fireColor;
+      ctx.beginPath();
+      ctx.arc(cx, cy, 20, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.fillStyle = glowColor;
+      ctx.globalAlpha = 0.5;
+      ctx.beginPath();
+      ctx.arc(cx - 15, cy + 5, 10, 0, Math.PI * 2);
+      ctx.arc(cx + 12, cy - 8, 8, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.globalAlpha = 1;
+    }
+
+    function drawShape(ctx, width, height, shapeType, stepIndex, totalSteps) {
+      var cx = width / 2;
+      var cy = height * 0.55;
+      ctx.fillStyle = '#2d251f';
+      ctx.fillRect(0, 0, width, height);
+      ctx.fillStyle = '#3d3228';
+      ctx.fillRect(0, height * 0.7, width, height * 0.3);
+
+      var baseColor = '#5c4a3a';
+      var lightColor = '#7b6a5a';
+
+      if (shapeType === 'cup') {
+        if (stepIndex === 0) {
+          ctx.fillStyle = baseColor;
+          ctx.beginPath();
+          ctx.ellipse(cx, cy, 35, 20, 0, 0, Math.PI * 2);
+          ctx.fill();
+        } else if (stepIndex === 1) {
+          ctx.fillStyle = baseColor;
+          ctx.beginPath();
+          ctx.moveTo(cx - 18, cy - 30);
+          ctx.lineTo(cx + 18, cy - 30);
+          ctx.lineTo(cx + 22, cy + 10);
+          ctx.lineTo(cx - 22, cy + 10);
+          ctx.closePath();
+          ctx.fill();
+        } else if (stepIndex === 2) {
+          ctx.fillStyle = lightColor;
+          ctx.beginPath();
+          ctx.moveTo(cx - 16, cy - 32);
+          ctx.lineTo(cx + 16, cy - 32);
+          ctx.lineTo(cx + 20, cy + 12);
+          ctx.lineTo(cx - 20, cy + 12);
+          ctx.closePath();
+          ctx.fill();
+        } else if (stepIndex === 3) {
+          ctx.fillStyle = '#8b7355';
+          ctx.beginPath();
+          ctx.moveTo(cx - 15, cy - 34);
+          ctx.lineTo(cx + 15, cy - 34);
+          ctx.lineTo(cx + 19, cy + 14);
+          ctx.lineTo(cx - 19, cy + 14);
+          ctx.closePath();
+          ctx.fill();
+        } else if (stepIndex === totalSteps - 2) {
+          drawKiln(ctx, cx, cy);
+        } else {
+          var grad = ctx.createLinearGradient(cx - 30, cy, cx + 30, cy);
+          grad.addColorStop(0, '#5c4a3a');
+          grad.addColorStop(0.5, '#c47d4c');
+          grad.addColorStop(1, '#8b7355');
+          ctx.fillStyle = grad;
+          ctx.beginPath();
+          ctx.moveTo(cx - 15, cy - 36);
+          ctx.lineTo(cx + 15, cy - 36);
+          ctx.lineTo(cx + 18, cy + 16);
+          ctx.lineTo(cx - 18, cy + 16);
+          ctx.closePath();
+          ctx.fill();
+          ctx.fillStyle = '#4a3d30';
+          ctx.beginPath();
+          ctx.ellipse(cx, cy + 20, 15, 5, 0, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      } else if (shapeType === 'gongdao') {
+        if (stepIndex <= 2) {
+          ctx.fillStyle = baseColor;
+          ctx.beginPath();
+          ctx.moveTo(cx - 25, cy - 20);
+          ctx.lineTo(cx + 25, cy - 20);
+          ctx.lineTo(cx + 30, cy + 15);
+          ctx.lineTo(cx - 30, cy + 15);
+          ctx.closePath();
+          ctx.fill();
+          if (stepIndex === 2) {
+            ctx.fillStyle = '#4a3d30';
+            ctx.beginPath();
+            ctx.moveTo(cx + 30, cy);
+            ctx.lineTo(cx + 45, cy - 5);
+            ctx.lineTo(cx + 43, cy + 5);
+            ctx.closePath();
+            ctx.fill();
+          }
+        } else if (stepIndex === 3) {
+          ctx.fillStyle = lightColor;
+          ctx.beginPath();
+          ctx.moveTo(cx - 23, cy - 22);
+          ctx.lineTo(cx + 23, cy - 22);
+          ctx.lineTo(cx + 27, cy + 18);
+          ctx.lineTo(cx - 27, cy + 18);
+          ctx.closePath();
+          ctx.fill();
+        } else if (stepIndex === totalSteps - 2) {
+          drawKiln(ctx, cx, cy);
+        } else {
+          var grad = ctx.createLinearGradient(cx - 30, cy, cx + 30, cy);
+          grad.addColorStop(0, '#5c4a3a');
+          grad.addColorStop(0.5, '#e89649');
+          grad.addColorStop(1, '#8b7355');
+          ctx.fillStyle = grad;
+          ctx.beginPath();
+          ctx.moveTo(cx - 22, cy - 24);
+          ctx.lineTo(cx + 22, cy - 24);
+          ctx.lineTo(cx + 26, cy + 20);
+          ctx.lineTo(cx - 26, cy + 20);
+          ctx.closePath();
+          ctx.fill();
+        }
+      } else if (shapeType === 'gaiwan') {
+        if (stepIndex === 0) {
+          ctx.fillStyle = baseColor;
+          ctx.beginPath();
+          ctx.ellipse(cx, cy, 30, 18, 0, 0, Math.PI * 2);
+          ctx.fill();
+        } else if (stepIndex === 1) {
+          ctx.fillStyle = baseColor;
+          ctx.beginPath();
+          ctx.moveTo(cx - 22, cy - 18);
+          ctx.lineTo(cx + 22, cy - 18);
+          ctx.lineTo(cx + 25, cy + 12);
+          ctx.lineTo(cx - 25, cy + 12);
+          ctx.closePath();
+          ctx.fill();
+          ctx.fillStyle = '#4a3d30';
+          ctx.beginPath();
+          ctx.arc(cx, cy - 32, 9, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.fillStyle = '#4a3d30';
+          ctx.beginPath();
+          ctx.ellipse(cx, cy + 25, 25, 6, 0, 0, Math.PI * 2);
+          ctx.fill();
+        } else if (stepIndex === 2) {
+          ctx.fillStyle = lightColor;
+          ctx.beginPath();
+          ctx.moveTo(cx - 20, cy - 20);
+          ctx.lineTo(cx + 20, cy - 20);
+          ctx.lineTo(cx + 23, cy + 14);
+          ctx.lineTo(cx - 23, cy + 14);
+          ctx.closePath();
+          ctx.fill();
+        } else if (stepIndex === totalSteps - 2) {
+          drawKiln(ctx, cx, cy);
+        } else {
+          var grad = ctx.createLinearGradient(cx - 30, cy, cx + 30, cy);
+          grad.addColorStop(0, '#5c4a3a');
+          grad.addColorStop(0.5, '#c47d4c');
+          grad.addColorStop(1, '#8b7355');
+          ctx.fillStyle = grad;
+          ctx.beginPath();
+          ctx.moveTo(cx - 18, cy - 22);
+          ctx.lineTo(cx + 18, cy - 22);
+          ctx.lineTo(cx + 21, cy + 16);
+          ctx.lineTo(cx - 21, cy + 16);
+          ctx.closePath();
+          ctx.fill();
+        }
+      } else if (shapeType === 'caddy') {
+        if (stepIndex <= 2) {
+          ctx.fillStyle = baseColor;
+          ctx.beginPath();
+          ctx.moveTo(cx - 18, cy - 35);
+          ctx.lineTo(cx + 18, cy - 35);
+          ctx.lineTo(cx + 20, cy + 12);
+          ctx.lineTo(cx - 20, cy + 12);
+          ctx.closePath();
+          ctx.fill();
+          if (stepIndex >= 1) {
+            ctx.fillStyle = '#4a3d30';
+            ctx.beginPath();
+            ctx.ellipse(cx, cy - 40, 14, 5, 0, 0, Math.PI * 2);
+            ctx.fill();
+          }
+        } else if (stepIndex === 3) {
+          ctx.fillStyle = lightColor;
+          ctx.beginPath();
+          ctx.moveTo(cx - 18, cy - 35);
+          ctx.lineTo(cx + 18, cy - 35);
+          ctx.lineTo(cx + 20, cy + 12);
+          ctx.lineTo(cx - 20, cy + 12);
+          ctx.closePath();
+          ctx.fill();
+        } else if (stepIndex === totalSteps - 2) {
+          drawKiln(ctx, cx, cy);
+        } else {
+          var grad = ctx.createLinearGradient(cx - 30, cy, cx + 30, cy);
+          grad.addColorStop(0, '#5c4a3a');
+          grad.addColorStop(0.5, '#e89649');
+          grad.addColorStop(1, '#8b7355');
+          ctx.fillStyle = grad;
+          ctx.beginPath();
+          ctx.moveTo(cx - 16, cy - 38);
+          ctx.lineTo(cx + 16, cy - 38);
+          ctx.lineTo(cx + 18, cy + 14);
+          ctx.lineTo(cx - 18, cy + 14);
+          ctx.closePath();
+          ctx.fill();
+        }
+      } else if (shapeType === 'vase') {
+        if (stepIndex === 0) {
+          ctx.fillStyle = baseColor;
+          ctx.beginPath();
+          ctx.ellipse(cx, cy, 28, 20, 0, 0, Math.PI * 2);
+          ctx.fill();
+        } else if (stepIndex === 1) {
+          ctx.fillStyle = baseColor;
+          ctx.beginPath();
+          ctx.moveTo(cx - 8, cy - 45);
+          ctx.lineTo(cx + 8, cy - 45);
+          ctx.lineTo(cx + 22, cy + 10);
+          ctx.lineTo(cx - 22, cy + 10);
+          ctx.closePath();
+          ctx.fill();
+        } else if (stepIndex === 2) {
+          ctx.fillStyle = lightColor;
+          ctx.beginPath();
+          ctx.moveTo(cx - 7, cy - 47);
+          ctx.lineTo(cx + 7, cy - 47);
+          ctx.lineTo(cx + 20, cy + 12);
+          ctx.lineTo(cx - 20, cy + 12);
+          ctx.closePath();
+          ctx.fill();
+        } else if (stepIndex === totalSteps - 2) {
+          drawKiln(ctx, cx, cy);
+        } else {
+          var grad = ctx.createLinearGradient(cx - 30, cy, cx + 30, cy);
+          grad.addColorStop(0, '#5c4a3a');
+          grad.addColorStop(0.4, '#c47d4c');
+          grad.addColorStop(0.7, '#e89649');
+          grad.addColorStop(1, '#8b7355');
+          ctx.fillStyle = grad;
+          ctx.beginPath();
+          ctx.moveTo(cx - 6, cy - 50);
+          ctx.lineTo(cx + 6, cy - 50);
+          ctx.lineTo(cx + 18, cy + 14);
+          ctx.lineTo(cx - 18, cy + 14);
+          ctx.closePath();
+          ctx.fill();
+        }
+      } else if (shapeType === 'meiping') {
+        if (stepIndex === 0) {
+          ctx.fillStyle = baseColor;
+          ctx.beginPath();
+          ctx.ellipse(cx, cy, 32, 18, 0, 0, Math.PI * 2);
+          ctx.fill();
+        } else if (stepIndex === 1) {
+          ctx.fillStyle = baseColor;
+          ctx.beginPath();
+          ctx.moveTo(cx - 22, cy + 8);
+          ctx.lineTo(cx + 22, cy + 8);
+          ctx.lineTo(cx + 18, cy - 28);
+          ctx.lineTo(cx - 18, cy - 28);
+          ctx.closePath();
+          ctx.fill();
+        } else if (stepIndex === 2) {
+          ctx.fillStyle = baseColor;
+          ctx.beginPath();
+          ctx.moveTo(cx - 20, cy + 10);
+          ctx.lineTo(cx + 20, cy + 10);
+          ctx.lineTo(cx + 25, cy - 52);
+          ctx.lineTo(cx - 25, cy - 52);
+          ctx.closePath();
+          ctx.fill();
+        } else if (stepIndex === 3) {
+          ctx.fillStyle = lightColor;
+          ctx.beginPath();
+          ctx.moveTo(cx - 18, cy + 12);
+          ctx.lineTo(cx + 18, cy + 12);
+          ctx.lineTo(cx + 23, cy - 55);
+          ctx.lineTo(cx - 23, cy - 55);
+          ctx.closePath();
+          ctx.fill();
+        } else if (stepIndex === totalSteps - 2) {
+          drawKiln(ctx, cx, cy);
+        } else {
+          var grad = ctx.createLinearGradient(cx - 30, cy, cx + 30, cy);
+          grad.addColorStop(0, '#5c4a3a');
+          grad.addColorStop(0.3, '#8b7355');
+          grad.addColorStop(0.6, '#c47d4c');
+          grad.addColorStop(1, '#8b5a3c');
+          ctx.fillStyle = grad;
+          ctx.beginPath();
+          ctx.moveTo(cx - 5, cy - 57);
+          ctx.lineTo(cx + 5, cy - 57);
+          ctx.lineTo(cx + 25, cy + 5);
+          ctx.lineTo(cx + 20, cy + 18);
+          ctx.lineTo(cx - 20, cy + 18);
+          ctx.lineTo(cx - 25, cy + 5);
+          ctx.closePath();
+          ctx.fill();
+        }
+      } else if (shapeType === 'teapot') {
+        if (stepIndex === 0) {
+          ctx.fillStyle = baseColor;
+          ctx.beginPath();
+          ctx.ellipse(cx, cy, 32, 18, 0, 0, Math.PI * 2);
+          ctx.fill();
+        } else if (stepIndex === 1) {
+          ctx.fillStyle = baseColor;
+          ctx.beginPath();
+          ctx.moveTo(cx - 18, cy - 28);
+          ctx.lineTo(cx + 18, cy - 28);
+          ctx.lineTo(cx + 20, cy + 10);
+          ctx.lineTo(cx - 20, cy + 10);
+          ctx.closePath();
+          ctx.fill();
+        } else if (stepIndex === 2) {
+          ctx.fillStyle = baseColor;
+          ctx.beginPath();
+          ctx.moveTo(cx - 18, cy - 28);
+          ctx.lineTo(cx + 18, cy - 28);
+          ctx.lineTo(cx + 20, cy + 10);
+          ctx.lineTo(cx - 20, cy + 10);
+          ctx.closePath();
+          ctx.fill();
+          ctx.fillStyle = '#4a3d30';
+          ctx.beginPath();
+          ctx.moveTo(cx - 28, cy - 8);
+          ctx.lineTo(cx - 42, cy - 8);
+          ctx.lineTo(cx - 42, cy + 8);
+          ctx.lineTo(cx - 28, cy + 8);
+          ctx.closePath();
+          ctx.fill();
+          ctx.fillStyle = '#4a3d30';
+          ctx.beginPath();
+          ctx.moveTo(cx + 20, cy - 5);
+          ctx.lineTo(cx + 33, cy - 10);
+          ctx.lineTo(cx + 31, cy);
+          ctx.closePath();
+          ctx.fill();
+        } else if (stepIndex === 3) {
+          ctx.fillStyle = lightColor;
+          ctx.beginPath();
+          ctx.moveTo(cx - 16, cy - 30);
+          ctx.lineTo(cx + 16, cy - 30);
+          ctx.lineTo(cx + 18, cy + 12);
+          ctx.lineTo(cx - 18, cy + 12);
+          ctx.closePath();
+          ctx.fill();
+        } else if (stepIndex === totalSteps - 2) {
+          drawKiln(ctx, cx, cy);
+        } else {
+          var grad = ctx.createLinearGradient(cx - 30, cy, cx + 30, cy);
+          grad.addColorStop(0, '#5c4a3a');
+          grad.addColorStop(0.5, '#e89649');
+          grad.addColorStop(1, '#8b7355');
+          ctx.fillStyle = grad;
+          ctx.beginPath();
+          ctx.moveTo(cx - 15, cy - 32);
+          ctx.lineTo(cx + 15, cy - 32);
+          ctx.lineTo(cx + 17, cy + 14);
+          ctx.lineTo(cx - 17, cy + 14);
+          ctx.closePath();
+          ctx.fill();
+        }
+      } else if (shapeType === 'censer') {
+        if (stepIndex === 0) {
+          ctx.fillStyle = baseColor;
+          ctx.beginPath();
+          ctx.ellipse(cx, cy, 32, 18, 0, 0, Math.PI * 2);
+          ctx.fill();
+        } else if (stepIndex === 1) {
+          ctx.fillStyle = baseColor;
+          ctx.beginPath();
+          ctx.moveTo(cx - 22, cy - 12);
+          ctx.lineTo(cx + 22, cy - 12);
+          ctx.lineTo(cx + 27, cy + 15);
+          ctx.lineTo(cx - 27, cy + 15);
+          ctx.closePath();
+          ctx.fill();
+        } else if (stepIndex === 2) {
+          ctx.fillStyle = baseColor;
+          ctx.beginPath();
+          ctx.moveTo(cx - 22, cy - 12);
+          ctx.lineTo(cx + 22, cy - 12);
+          ctx.lineTo(cx + 27, cy + 15);
+          ctx.lineTo(cx - 27, cy + 15);
+          ctx.closePath();
+          ctx.fill();
+        } else if (stepIndex === 3) {
+          ctx.fillStyle = lightColor;
+          ctx.beginPath();
+          ctx.moveTo(cx - 20, cy - 14);
+          ctx.lineTo(cx + 20, cy - 14);
+          ctx.lineTo(cx + 25, cy + 17);
+          ctx.lineTo(cx - 25, cy + 17);
+          ctx.closePath();
+          ctx.fill();
+        } else if (stepIndex === totalSteps - 2) {
+          drawKiln(ctx, cx, cy);
+        } else {
+          var grad = ctx.createLinearGradient(cx - 30, cy, cx + 30, cy);
+          grad.addColorStop(0, '#5c4a3a');
+          grad.addColorStop(0.5, '#c47d4c');
+          grad.addColorStop(1, '#8b5a3c');
+          ctx.fillStyle = grad;
+          ctx.beginPath();
+          ctx.moveTo(cx - 18, cy - 16);
+          ctx.lineTo(cx + 18, cy - 16);
+          ctx.lineTo(cx + 23, cy + 19);
+          ctx.lineTo(cx - 23, cy + 19);
+          ctx.closePath();
+          ctx.fill();
+        }
+      } else if (shapeType === 'jianzhan') {
+        if (stepIndex <= 3) {
+          ctx.fillStyle = baseColor;
+          ctx.beginPath();
+          ctx.ellipse(cx, cy, 35, 22, 0, 0, Math.PI * 2);
+          ctx.fill();
+        } else if (stepIndex === 4) {
+          ctx.fillStyle = baseColor;
+          ctx.beginPath();
+          ctx.moveTo(cx - 20, cy - 32);
+          ctx.lineTo(cx + 20, cy - 32);
+          ctx.lineTo(cx + 24, cy + 12);
+          ctx.lineTo(cx - 24, cy + 12);
+          ctx.closePath();
+          ctx.fill();
+        } else if (stepIndex === 5) {
+          ctx.fillStyle = lightColor;
+          ctx.beginPath();
+          ctx.moveTo(cx - 18, cy - 34);
+          ctx.lineTo(cx + 18, cy - 34);
+          ctx.lineTo(cx + 22, cy + 14);
+          ctx.lineTo(cx - 22, cy + 14);
+          ctx.closePath();
+          ctx.fill();
+        } else if (stepIndex === 6) {
+          ctx.fillStyle = '#8b7355';
+          ctx.beginPath();
+          ctx.moveTo(cx - 17, cy - 36);
+          ctx.lineTo(cx + 17, cy - 36);
+          ctx.lineTo(cx + 21, cy + 16);
+          ctx.lineTo(cx - 21, cy + 16);
+          ctx.closePath();
+          ctx.fill();
+        } else if (stepIndex === 7) {
+          ctx.fillStyle = '#2d251f';
+          ctx.beginPath();
+          ctx.moveTo(cx - 16, cy - 38);
+          ctx.lineTo(cx + 16, cy - 38);
+          ctx.lineTo(cx + 20, cy + 18);
+          ctx.lineTo(cx - 20, cy + 18);
+          ctx.closePath();
+          ctx.fill();
+        } else if (stepIndex === 8) {
+          ctx.fillStyle = '#2d251f';
+          ctx.beginPath();
+          ctx.moveTo(cx - 15, cy - 40);
+          ctx.lineTo(cx + 15, cy - 40);
+          ctx.lineTo(cx + 19, cy + 20);
+          ctx.lineTo(cx - 19, cy + 20);
+          ctx.closePath();
+          ctx.fill();
+        } else if (stepIndex === totalSteps - 2) {
+          drawKiln(ctx, cx, cy);
+        } else {
+          ctx.fillStyle = '#1a1613';
+          ctx.beginPath();
+          ctx.moveTo(cx - 15, cy - 42);
+          ctx.lineTo(cx + 15, cy - 42);
+          ctx.lineTo(cx + 19, cy + 22);
+          ctx.lineTo(cx - 19, cy + 22);
+          ctx.closePath();
+          ctx.fill();
+          ctx.fillStyle = '#c47d4c';
+          ctx.globalAlpha = 0.8;
+          for (var i = 0; i < 8; i++) {
+            ctx.beginPath();
+            ctx.moveTo(cx - 12 + i * 3, cy - 35);
+            ctx.lineTo(cx - 10 + i * 3, cy + 8);
+            ctx.stroke();
+          }
+          ctx.globalAlpha = 1;
+        }
+      } else if (shapeType === 'vat') {
+        if (stepIndex === 0) {
+          ctx.fillStyle = baseColor;
+          ctx.beginPath();
+          ctx.ellipse(cx, cy, 40, 25, 0, 0, Math.PI * 2);
+          ctx.fill();
+        } else if (stepIndex === 1) {
+          ctx.fillStyle = baseColor;
+          ctx.beginPath();
+          ctx.moveTo(cx - 30, cy + 5);
+          ctx.lineTo(cx + 30, cy + 5);
+          ctx.lineTo(cx + 25, cy - 25);
+          ctx.lineTo(cx - 25, cy - 25);
+          ctx.closePath();
+          ctx.fill();
+        } else if (stepIndex === 2) {
+          ctx.fillStyle = baseColor;
+          ctx.beginPath();
+          ctx.moveTo(cx - 28, cy + 8);
+          ctx.lineTo(cx + 28, cy + 8);
+          ctx.lineTo(cx + 32, cy - 52);
+          ctx.lineTo(cx - 32, cy - 52);
+          ctx.closePath();
+          ctx.fill();
+        } else if (stepIndex === 3) {
+          ctx.fillStyle = lightColor;
+          ctx.beginPath();
+          ctx.moveTo(cx - 26, cy + 10);
+          ctx.lineTo(cx + 26, cy + 10);
+          ctx.lineTo(cx + 30, cy - 55);
+          ctx.lineTo(cx - 30, cy - 55);
+          ctx.closePath();
+          ctx.fill();
+        } else if (stepIndex === 4) {
+          ctx.fillStyle = '#8b7355';
+          ctx.beginPath();
+          ctx.moveTo(cx - 24, cy + 12);
+          ctx.lineTo(cx + 24, cy + 12);
+          ctx.lineTo(cx + 28, cy - 58);
+          ctx.lineTo(cx - 28, cy - 58);
+          ctx.closePath();
+          ctx.fill();
+        } else if (stepIndex === totalSteps - 3) {
+          ctx.fillStyle = '#2d251f';
+          ctx.beginPath();
+          ctx.moveTo(cx - 55, cy + 15);
+          ctx.lineTo(cx + 55, cy + 15);
+          ctx.lineTo(cx + 45, cy - 65);
+          ctx.lineTo(cx - 45, cy - 65);
+          ctx.closePath();
+          ctx.fill();
+        } else if (stepIndex === totalSteps - 2) {
+          drawKiln(ctx, cx, cy);
+        } else {
+          var grad = ctx.createLinearGradient(cx - 30, cy, cx + 30, cy);
+          grad.addColorStop(0, '#5c4a3a');
+          grad.addColorStop(0.3, '#d45a29');
+          grad.addColorStop(0.6, '#c47d4c');
+          grad.addColorStop(1, '#8b5a3c');
+          ctx.fillStyle = grad;
+          ctx.beginPath();
+          ctx.moveTo(cx - 8, cy - 62);
+          ctx.lineTo(cx + 8, cy - 62);
+          ctx.lineTo(cx + 35, cy + 5);
+          ctx.lineTo(cx + 28, cy + 20);
+          ctx.lineTo(cx - 28, cy + 20);
+          ctx.lineTo(cx - 35, cy + 5);
+          ctx.closePath();
+          ctx.fill();
+        }
+      }
+    }
+
+    function initKilns() {
+      var container = document.getElementById('kilnContainer');
+      if (!container) return;
+      
+      for (var i = 0; i < KILNS.length; i++) {
+        var kiln = KILNS[i];
+        var card = document.createElement('div');
+        card.className = 'kiln-card';
+        card.onclick = (function(k) {
+          return function() { openDetail(k); };
+        })(kiln);
+        
+        var stepsHtml = '';
+        for (var j = 0; j < kiln.steps.length; j++) {
+          var step = kiln.steps[j];
+          stepsHtml += '<div class="step-card"><div class="step-canvas"><canvas id="grid-canvas-' + kiln.id + '-' + j + '"></canvas></div><div class="step-info"><div class="step-num">第' + (j + 1) + '步</div><div class="step-name">' + step.name + '</div></div></div>';
+        }
+        
+        card.innerHTML = '<div class="kiln-header"><div class="kiln-title"><h3>' + kiln.name + '</h3><div class="sub-name">' + kiln.subName + '</div><div class="desc">' + kiln.desc + '</div></div><div class="kiln-difficulty">' + kiln.difficulty + '</div></div><div class="steps-grid">' + stepsHtml + '</div>';
+        container.appendChild(card);
+      }
+      
+      setTimeout(function() {
+        for (var k = 0; k < KILNS.length; k++) {
+          var kn = KILNS[k];
+          for (var m = 0; m < kn.steps.length; m++) {
+            var canvas = document.getElementById('grid-canvas-' + kn.id + '-' + m);
+            if (canvas) {
+              var ctx = canvas.getContext('2d');
+              var rect = canvas.getBoundingClientRect();
+              canvas.width = rect.width * 2;
+              canvas.height = rect.height * 2;
+              ctx.scale(2, 2);
+              drawShape(ctx, rect.width, rect.height, shapeMap[kn.id], m, kn.steps.length);
+            }
+          }
+        }
+      }, 300);
+    }
+
+    function openDetail(kiln) {
+      var titleEl = document.getElementById('detailTitle');
+      var stepsEl = document.getElementById('detailSteps');
+      var modal = document.getElementById('detailModal');
+      
+      if (!titleEl || !stepsEl || !modal) return;
+
+      titleEl.textContent = kiln.name;
+      stepsEl.innerHTML = '';
+
+      for (var i = 0; i < kiln.steps.length; i++) {
+        var step = kiln.steps[i];
+        var stepItem = document.createElement('div');
+        stepItem.className = 'detail-step';
+        stepItem.innerHTML = '<div class="step-num">' + (i + 1) + '</div><div class="step-canvas"><canvas id="detail-canvas-' + kiln.id + '-' + i + '"></canvas></div><div class="step-text"><h4>' + step.name + '</h4><p>' + step.desc + '</p></div>';
+        stepsEl.appendChild(stepItem);
+      }
+
+      setTimeout(function() {
+        for (var j = 0; j < kiln.steps.length; j++) {
+          var canvas = document.getElementById('detail-canvas-' + kiln.id + '-' + j);
+          if (canvas) {
+            var ctx = canvas.getContext('2d');
+            var rect = canvas.getBoundingClientRect();
+            canvas.width = rect.width * 2;
+            canvas.height = rect.height * 2;
+            ctx.scale(2, 2);
+            drawShape(ctx, rect.width, rect.height, shapeMap[kiln.id], j, kiln.steps.length);
+          }
+        }
+      }, 200);
+
+      modal.classList.add('active');
+    }
+
+    function closeModal() {
+      var modal = document.getElementById('detailModal');
+      if (modal) {
+        modal.classList.remove('active');
+      }
+    }
+
+    window.onload = function() {
+      initKilns();
+    };
+  </script>
+</body>
+</html>

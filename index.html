@@ -1,0 +1,1345 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>非遗窑器认养</title>
+  <style>
+    :root {
+      --bg: #1a1613;
+      --panel: rgba(45, 38, 32, 0.85);
+      --panel-strong: rgba(60, 48, 38, 0.9);
+      --text: #f5ebe0;
+      --muted: #9a8f80;
+      --primary: #c47d4c;
+      --primary-dark: #a36235;
+      --accent: #e89649;
+      --danger: #b4493f;
+      --soil: #5c4a3a;
+      --fire: #d45a29;
+      --shadow: 0 12px 40px rgba(0, 0, 0, 0.45);
+      --radius: 16px;
+    }
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--text);
+      font-family: "Microsoft YaHei", "PingFang SC", "Noto Sans SC", system-ui, sans-serif;
+      background:
+        radial-gradient(circle at 12% 10%, rgba(196, 125, 76, 0.12), transparent 35%),
+        radial-gradient(circle at 82% 4%, rgba(232, 150, 73, 0.08), transparent 30%),
+        linear-gradient(145deg, #1a1613 0%, #251f1a 48%, #1f1a16 100%);
+    }
+    button,
+    input {
+      font: inherit;
+    }
+    button {
+      border: 0;
+      cursor: pointer;
+      color: #fff;
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      border-radius: 8px;
+      padding: 10px 16px;
+      box-shadow: 0 4px 16px rgba(196, 125, 76, 0.3);
+      transition: transform 0.15s ease, box-shadow 0.15s ease, filter 0.15s ease;
+    }
+    button:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(196, 125, 76, 0.4);
+      filter: brightness(1.05);
+    }
+    button:active {
+      transform: translateY(0);
+    }
+    button.secondary {
+      color: var(--primary);
+      background: rgba(196, 125, 76, 0.1);
+      box-shadow: none;
+      border: 1px solid rgba(196, 125, 76, 0.3);
+    }
+    button.danger {
+      background: linear-gradient(135deg, #cf6a5d, var(--danger));
+      box-shadow: 0 4px 16px rgba(180, 73, 63, 0.3);
+    }
+    button.ghost {
+      color: var(--text);
+      background: rgba(255, 255, 255, 0.08);
+      box-shadow: none;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+    }
+    button:disabled {
+      cursor: not-allowed;
+      opacity: 0.52;
+      transform: none;
+      box-shadow: none;
+      filter: grayscale(0.2);
+    }
+    .page {
+      width: min(1180px, 100%);
+      margin: 0 auto;
+      padding: 28px;
+    }
+    .hero {
+      position: relative;
+      overflow: hidden;
+      padding: 34px;
+      border-radius: var(--radius);
+      background:
+        linear-gradient(135deg, rgba(60, 48, 38, 0.9), rgba(45, 38, 32, 0.85)),
+        radial-gradient(circle at right top, rgba(232, 150, 73, 0.15), transparent 45%);
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(196, 125, 76, 0.2);
+    }
+    .hero::after {
+      content: "";
+      position: absolute;
+      right: 28px;
+      top: 18px;
+      width: 140px;
+      height: 140px;
+      background: radial-gradient(circle, rgba(232, 150, 73, 0.1), transparent 60%);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+    .hero h1 {
+      margin: 0;
+      font-size: clamp(32px, 6vw, 58px);
+      letter-spacing: 0.1em;
+      color: #f5ebe0;
+      font-weight: 700;
+    }
+    .hero p {
+      width: min(720px, 100%);
+      margin: 14px 0 0;
+      color: var(--muted);
+      line-height: 1.8;
+      font-size: 16px;
+    }
+    .section-title {
+      margin: 28px 0 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+    .section-title h2 {
+      margin: 0;
+      font-size: 22px;
+      color: #f5ebe0;
+    }
+    .hint {
+      color: var(--muted);
+      font-size: 14px;
+    }
+    .herb-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+    }
+    .herb-card {
+      overflow: hidden;
+      border-radius: var(--radius);
+      background: var(--panel);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 0 8px 28px rgba(0, 0, 0, 0.35);
+      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+    }
+    .herb-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 36px rgba(0, 0, 0, 0.45);
+      border-color: rgba(196, 125, 76, 0.3);
+    }
+    .herb-card.adopted {
+      border: 1px solid rgba(196, 125, 76, 0.5);
+      box-shadow: 0 8px 28px rgba(196, 125, 76, 0.2);
+    }
+    .herb-card.locked {
+      opacity: 0.5;
+      filter: grayscale(0.5);
+    }
+    .herb-card.locked:hover {
+      transform: none;
+      box-shadow: 0 8px 28px rgba(0, 0, 0, 0.35);
+      border-color: rgba(255, 255, 255, 0.08);
+    }
+    .herb-card.locked button {
+      cursor: not-allowed;
+      background: #4a4238;
+      color: #7a7268;
+    }
+    .adopted-badge {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      z-index: 2;
+      background: var(--primary);
+      color: #fff;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 6px;
+      box-shadow: 0 4px 12px rgba(196, 125, 76, 0.35);
+    }
+    .image-wrap {
+      position: relative;
+      height: 180px;
+      overflow: hidden;
+      background: linear-gradient(135deg, #3a3028, #2d251f);
+    }
+    .image-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      filter: saturate(0.8) contrast(1.05);
+    }
+    .herb-card[data-herb-id="rushanhu"] .image-wrap img {
+      object-position: 28% center;
+    }
+    .image-fallback {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      padding: 18px;
+      color: rgba(245, 235, 224, 0.7);
+      background:
+        radial-gradient(circle at 30% 28%, rgba(196, 125, 76, 0.1), transparent 35%),
+        linear-gradient(135deg, #3a3028, #2d251f);
+      font-weight: 700;
+    }
+    .card-body {
+      padding: 20px;
+    }
+    .card-body h3 {
+      margin: 0;
+      font-size: 18px;
+      color: #f5ebe0;
+      font-weight: 600;
+    }
+    .alias {
+      margin: 4px 0 8px;
+      color: var(--accent);
+      font-weight: 600;
+      font-size: 13px;
+    }
+    .feature {
+      min-height: 42px;
+      margin: 0 0 8px;
+      color: var(--muted);
+      line-height: 1.5;
+      font-size: 13px;
+    }
+    .efficacy {
+      margin: 0 0 10px;
+      color: #b8ada0;
+      line-height: 1.5;
+      font-size: 12px;
+      padding: 10px 12px;
+      background: rgba(196, 125, 76, 0.08);
+      border-radius: 8px;
+      border-left: 2px solid var(--primary);
+    }
+    .stars {
+      display: flex;
+      gap: 2px;
+      margin-bottom: 10px;
+      align-items: center;
+    }
+    .stars .star {
+      color: #e89649;
+      font-size: 13px;
+    }
+    .stars .star.empty {
+      color: #4a4238;
+    }
+    .stars .label {
+      margin-left: 6px;
+      font-size: 11px;
+      color: var(--muted);
+    }
+    .stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+    .stat {
+      padding: 8px 10px;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.04);
+      color: var(--muted);
+      font-size: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+    }
+    .stat strong {
+      display: block;
+      color: #f5ebe0;
+      font-size: 15px;
+      margin-top: 2px;
+      font-weight: 600;
+    }
+    .plant-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 18px;
+    }
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 18px;
+    }
+    .plant-card {
+      border-radius: var(--radius);
+      background: var(--panel);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: var(--shadow);
+      padding: 28px;
+    }
+    .plant-header {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 16px;
+      align-items: start;
+      margin-bottom: 14px;
+    }
+    .plant-header h1 {
+      margin: 0 0 6px;
+      font-size: clamp(26px, 5vw, 40px);
+      color: #f5ebe0;
+      font-weight: 700;
+    }
+    .plant-header p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+    .stage-pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 150px;
+      padding: 10px 14px;
+      border-radius: 8px;
+      background: rgba(196, 125, 76, 0.15);
+      color: var(--accent);
+      font-weight: 600;
+      border: 1px solid rgba(196, 125, 76, 0.25);
+    }
+    .canvas-shell {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--radius);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: #251f1a;
+    }
+    #plantCanvas {
+      display: block;
+      width: 100%;
+      height: 480px;
+    }
+    .mature-banner {
+      position: absolute;
+      left: 50%;
+      top: 16px;
+      transform: translateX(-50%);
+      padding: 8px 16px;
+      border-radius: 8px;
+      color: #f5ebe0;
+      background: rgba(196, 125, 76, 0.9);
+      border: 1px solid rgba(232, 150, 73, 0.4);
+      font-weight: 700;
+      box-shadow: 0 8px 20px rgba(196, 125, 76, 0.35);
+      animation: bannerPulse 1.5s ease-in-out infinite;
+    }
+    @keyframes bannerPulse {
+      0%, 100% { transform: translateX(-50%) scale(1); }
+      50% { transform: translateX(-50%) scale(1.02); }
+    }
+    .control-panel {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 16px;
+      margin-top: 16px;
+    }
+    .panel-box {
+      padding: 20px;
+      border-radius: var(--radius);
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+    }
+    .progress-label {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      color: #f5ebe0;
+      font-weight: 600;
+      margin-bottom: 8px;
+      font-size: 14px;
+    }
+    .progress {
+      height: 12px;
+      overflow: hidden;
+      border-radius: 6px;
+      background: rgba(255, 255, 255, 0.08);
+      box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
+    }
+    .progress span {
+      display: block;
+      height: 100%;
+      width: 0%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, #c47d4c, #e89649);
+      transition: width 0.3s ease;
+    }
+    .actions {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin-top: 16px;
+    }
+    .stage-browser {
+      display: grid;
+      gap: 12px;
+    }
+    .stage-controls {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      align-items: center;
+      gap: 12px;
+    }
+    input[type="range"] {
+      width: 100%;
+      accent-color: var(--primary);
+    }
+    .stage-buttons {
+      display: grid;
+      grid-template-columns: repeat(10, 1fr);
+      gap: 6px;
+    }
+    .stage-btn {
+      padding: 6px 0;
+      border-radius: 6px;
+      color: var(--muted);
+      background: rgba(255, 255, 255, 0.04);
+      box-shadow: none;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      font-size: 12px;
+    }
+    .stage-btn.active {
+      color: #fff;
+      background: linear-gradient(135deg, #c47d4c, #a36235);
+      border-color: transparent;
+    }
+    .tiny {
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+    .gallery-list {
+      display: grid;
+      gap: 18px;
+    }
+    .gallery-card {
+      padding: 16px;
+      border-radius: var(--radius);
+      background: var(--panel);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 0 8px 28px rgba(0, 0, 0, 0.35);
+    }
+    .gallery-card h3 {
+      margin: 0 0 4px;
+      color: #f5ebe0;
+      font-size: 20px;
+      font-weight: 600;
+    }
+    .stage-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+      gap: 16px;
+      margin-top: 14px;
+    }
+    .stage-preview {
+      overflow: hidden;
+      border-radius: var(--radius);
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+    }
+    .stage-preview canvas {
+      display: block;
+      width: 100%;
+      height: 200px;
+    }
+    .stage-caption {
+      padding: 8px 10px 10px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 600;
+    }
+    @media (max-width: 760px) {
+      .page {
+        padding: 16px;
+      }
+      .hero {
+        padding: 24px;
+        border-radius: 26px;
+      }
+      .herb-grid {
+        grid-template-columns: 1fr;
+      }
+      .plant-card {
+        padding: 16px;
+        border-radius: 24px;
+      }
+      .plant-header {
+        grid-template-columns: 1fr;
+      }
+      .stage-pill {
+        width: 100%;
+      }
+      #plantCanvas {
+        height: 330px;
+      }
+      .control-panel {
+        grid-template-columns: 1fr;
+      }
+      .actions {
+        grid-template-columns: 1fr;
+      }
+      .stage-buttons {
+        grid-template-columns: repeat(5, 1fr);
+      }
+      .stage-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .topbar button {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main id="app"></main>
+  <script>
+    const STORAGE_KEY = "yaoqi-kiln-simulator-v1";
+    const MAX_GROWTH = 100;
+    function getGrowthPerAction(herb) {
+      return herb.difficulty;
+    }
+    const MAX_STAGE = 9;
+    const STAGE_NAMES = ["备泥取土·初", "备泥取土·滤泥", "拉坯塑形·初坯", "拉坯塑形·修坯", "上釉素烧·施釉", "上釉素烧·固釉", "封窑煅烧·控温", "封窑煅烧·窑变", "开窑成品·冷却", "开窑成品·成器"];
+    const HERBS = [
+      {
+        id: "pinmingbei",
+        name: "品茗杯",
+        alias: "主人杯",
+        featureText: "小巧精致圆口杯 + 天然落灰釉火痕",
+        imageUrl: "assets/images/rushanhu.jpeg",
+        efficacy: "木柴高温形成的结晶釉自然流淌，火焰流窜形成姿态各异的火痕，每件作品独一无二。日常出彩颜色有七彩虹效果、淡黄、猪肝红、紫金、蓝金等，柴烧品茗杯具有软化水质效果，使茶汤口感更柔和甘爽。",
+        difficulty: 2,
+        totalDays: 150,
+        colors: { body: "#8b6914", glaze: "#d4a017", accent: "#2f4f4f", fire: "#ff6347", smoke: "#a0a0a0" },
+        shapeType: "pot",
+        patternType: "round",
+        uniqueFeature: "tigerPattern"
+      },
+      {
+        id: "gongdaobei",
+        name: "公道杯",
+        alias: "茶海",
+        featureText: "开口敞大分茶器 + 温润灰釉气泡",
+        imageUrl: "assets/images/baijiuniu.png",
+        efficacy: "通体呈现柴烧特有的温润灰釉，釉面气泡大小不一极富层次感，内壁因长期使用会养出茶色包浆。茶壶内茶汤浸泡至适当浓度后，倒入公道杯再分倒于各小茶杯，以求茶汤浓度均匀，柴烧粗陶质地可软化水质提升口感。",
+        difficulty: 2,
+        totalDays: 150,
+        colors: { body: "#9a7b4f", glaze: "#c9a566", accent: "#5d4e37", fire: "#ff4500", smoke: "#808080" },
+        shapeType: "jar",
+        patternType: "oval",
+        uniqueFeature: "sealPattern"
+      },
+      {
+        id: "gaiwan",
+        name: "盖碗",
+        alias: "三才碗",
+        featureText: "天地人三才合一 + 自然落灰釉泪釉",
+        imageUrl: "assets/images/dahongzuan.jpeg",
+        efficacy: "盖为天、托为地、碗为人，暗含天地人和之意。柴烧瓷坯入窑前不上釉，借助木柴燃烧积累的木灰在高温下转化成自然釉面，可形成漂亮的落灰釉、泪釉、翠底等效果。用盖碗泡茶不会串味，便于出汤，打开盖碗沁人心脾的茶香扑面而来。",
+        difficulty: 3,
+        totalDays: 200,
+        colors: { body: "#c8322d", glaze: "#e85d4c", accent: "#8b2323", fire: "#ff6347", smoke: "#606060" },
+        shapeType: "jar",
+        patternType: "round",
+        uniqueFeature: "redKilnChange"
+      },
+      {
+        id: "chayeguan",
+        name: "茶叶罐",
+        alias: "茶仓",
+        featureText: "圆筒扁鼓形带盖 + 斑驳火痕纹理",
+        imageUrl: "assets/images/binlangzuan.jpeg",
+        efficacy: "罐身表面柴烧落灰不均，自然形成斑驳的火痕纹理，温差带来深浅不一的自然色调。用于储存茶叶，柴烧陶的微气孔结构有助于茶叶呼吸醒茶，粗陶透气不透水的特性使其成为普洱等发酵茶的理想存储容器。",
+        difficulty: 3,
+        totalDays: 200,
+        colors: { body: "#a0522d", glaze: "#cd853f", accent: "#8b4513", fire: "#ffa500", smoke: "#909090" },
+        shapeType: "pot",
+        patternType: "oval",
+        uniqueFeature: "glazeSeep"
+      },
+      {
+        id: "huaqi",
+        name: "花器",
+        alias: "花瓶",
+        featureText: "形态自由多样 + 粗犷精致窑变",
+        imageUrl: "assets/images/niudali.jpeg",
+        efficacy: "可以是扁壶形、葫芦形、筒形或不规则雕塑形，口部狭窄仅容一两枝花木，底部厚重以增加稳定性。表面落灰、火痕、窑变色彩丰富多样，追求粗犷中见精致的审美，质朴浑厚的色泽带给人回归自然的美感，用于日式花道或中式案头插花。",
+        difficulty: 3,
+        totalDays: 200,
+        colors: { body: "#7b3f92", glaze: "#9966cc", accent: "#4b0082", fire: "#ff4500", smoke: "#a0a0a0" },
+        shapeType: "pot",
+        patternType: "round",
+        uniqueFeature: "butterflyPattern"
+      },
+      {
+        id: "meiping",
+        name: "梅瓶",
+        alias: "纸槌瓶",
+        featureText: "小口丰肩修长 + 火痕渐变色调",
+        imageUrl: "assets/images/wuzhaofeng.png",
+        efficacy: "小口、短颈、丰肩、瘦底，形体修长挺拔，高约25到40厘米。表面火痕流畅，从肩部到底部呈现渐变色调，自然落灰在肩部堆积最厚形成厚润的天然灰釉层，底部则较为朴素。传统上用于插梅花或作陈设摆件，是古典审美的典型代表。",
+        difficulty: 4,
+        totalDays: 300,
+        colors: { body: "#5d4e37", glaze: "#8b7355", accent: "#3d3224", fire: "#ff6347", smoke: "#707070" },
+        shapeType: "pot",
+        patternType: "palmate",
+        uniqueFeature: "palmPattern"
+      },
+      {
+        id: "cebahu",
+        name: "侧把壶",
+        alias: "急须",
+        featureText: "扁圆直筒壶身 + 阴阳火痕对比",
+        imageUrl: "assets/images/shuanggou.jpeg",
+        efficacy: "壶身扁圆或直筒型，侧面装有与壶身垂直的把手，前方设短直流。表面落灰集中在受火面一侧，背火面保留素朴的陶胎本色，形成鲜明的阴阳对比，散发着质朴浑厚古拙的美感。单手操作泡茶出汤快速利落，特别适合功夫茶道。",
+        difficulty: 4,
+        totalDays: 300,
+        colors: { body: "#4a3728", glaze: "#6b4423", accent: "#2d1f14", fire: "#ff4500", smoke: "#808080" },
+        shapeType: "pot",
+        patternType: "hook",
+        uniqueFeature: "doubleHook"
+      },
+      {
+        id: "sanzuxianglu",
+        name: "三足香炉",
+        alias: "鼎炉",
+        featureText: "仿古鼎形双耳 + 古朴苍茫火痕",
+        imageUrl: "assets/images/jingufeng.jpeg",
+        efficacy: "仿古鼎形，圆腹，双耳，底部三足鼎立，高约12到18厘米。表面柴烧痕迹古朴苍茫，三足底部常留有粗黄土痕，炉内可置篆香或盘香。用于焚香品香、书房雅室陈设，也可供佛道礼拜，古朴气质与袅袅烟气相得益彰。",
+        difficulty: 4,
+        totalDays: 300,
+        colors: { body: "#b8860b", glaze: "#daa520", accent: "#8b6914", fire: "#ffa500", smoke: "#909090" },
+        shapeType: "dish",
+        patternType: "round",
+        uniqueFeature: "beadPattern"
+      },
+      {
+        id: "jianzhan",
+        name: "建窑建盏",
+        alias: "天目盏",
+        featureText: "黑釉兔毫斑纹 + 铁胎高温还原",
+        imageUrl: "assets/images/jiulong.jpeg",
+        efficacy: "黑釉瓷外观简素，造型口大足小浑厚古朴，釉层细致坚硬具有强烈的玻璃质感，盏中斑纹形状千变万化，色彩随光线强弱而变化，可分为黑色釉、兔毫釉、鹧鸪斑釉、毫变釉和杂色釉五种类型。因其口大底深边薄底厚，用其沏茶茶汤久热难冷，易干不留渣越宿不馊。",
+        difficulty: 5,
+        totalDays: 400,
+        colors: { body: "#654321", glaze: "#8b7355", accent: "#3d2914", fire: "#ff6347", smoke: "#606060" },
+        shapeType: "jar",
+        patternType: "hoof",
+        uniqueFeature: "hoofPattern"
+      },
+      {
+        id: "dagang",
+        name: "大缸",
+        alias: "风水缸",
+        featureText: "口径30厘米以上 + 气势浑厚雄壮",
+        imageUrl: "assets/images/shanzu.jpeg",
+        efficacy: "口径30厘米以上，深腹厚壁，气势浑厚雄壮，是柴烧器物中体量最大的品种。表面布满大面积的火痕、落灰和窑变色彩——金黄、赭红、墨绿、铁黑交织，因器型巨大受火面积广，每一面效果截然不同。传统上用于储水、腌菜、酿酒等日常生活，现代多作为庭院景观缸、养鱼莲花缸或大型茶道陈设。",
+        difficulty: 5,
+        totalDays: 500,
+        colors: { body: "#8b4513", glaze: "#cd5c5c", accent: "#5c2e16", fire: "#ff4500", smoke: "#707070" },
+        shapeType: "jar",
+        patternType: "leaf",
+        uniqueFeature: "leafPattern"
+      }
+    ];
+    function getStageName(progress) {
+      if (progress >= 0 && progress <= 25) return "备泥取土";
+      if (progress >= 26 && progress <= 50) return "拉坯修坯";
+      if (progress >= 51 && progress <= 75) return "上釉素烧";
+      return "封窑开窑";
+    }
+    function getStageIndex(progress) {
+      if (progress >= 0 && progress <= 25) return Math.floor(progress / 25) * 2;
+      if (progress >= 26 && progress <= 50) return 2 + Math.floor((progress - 25) / 25) * 2;
+      if (progress >= 51 && progress <= 75) return 4 + Math.floor((progress - 50) / 25) * 2;
+      return 7 + Math.floor((progress - 75) / 25) * 2;
+    }
+    function saveState(state) {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+      } catch (e) {}
+    }
+    function loadState() {
+      try {
+        const stored = localStorage.getItem(STORAGE_KEY);
+        if (stored) {
+          return JSON.parse(stored);
+        }
+      } catch (e) {}
+      return {
+        adopted: {},
+        gallery: []
+      };
+    }
+    function getAdoptedHerbs(state) {
+      return Object.keys(state.adopted).map(id => ({
+        ...HERBS.find(h => h.id === id),
+        ...state.adopted[id]
+      })).filter(Boolean);
+    }
+    function getAvailableHerbs(state) {
+      const adoptedIds = Object.keys(state.adopted);
+      return HERBS.map(h => ({
+        ...h,
+        adopted: adoptedIds.includes(h.id),
+        locked: adoptedIds.length > 0 && !adoptedIds.includes(h.id)
+      }));
+    }
+    function renderStars(difficulty) {
+      const filled = Math.min(difficulty, 5);
+      const empty = 5 - filled;
+      return `<div class="stars">${"★".repeat(filled).split("").map(s => `<span class="star">${s}</span>`).join("")}${"★".repeat(empty).split("").map(s => `<span class="star empty">${s}</span>`).join("")}</div>`;
+    }
+    function renderStat(label, value) {
+      return `<div class="stat">${label}<strong>${value}</strong></div>`;
+    }
+    function renderHerbCard(herb) {
+      return `
+        <article class="herb-card ${herb.adopted ? "adopted" : ""} ${herb.locked ? "locked" : ""}" data-herb-id="${herb.id}">
+          ${herb.adopted ? '<div class="adopted-badge">已认养</div>' : ""}
+          <div class="image-wrap">
+            <img src="${herb.imageUrl}" alt="${herb.name}" loading="lazy" onerror="this.style.display='none'; this.parentElement.querySelector('.image-fallback').style.display='grid';">
+            <div class="image-fallback" style="display:none;">${herb.name}</div>
+          </div>
+          <div class="card-body">
+            <h3>${herb.name}</h3>
+            <div class="alias">${herb.alias}</div>
+            <p class="feature">${herb.featureText}</p>
+            <p class="efficacy">${herb.efficacy}</p>
+            ${renderStars(herb.difficulty)}
+            <div class="stats">
+              ${renderStat("烧制周期", herb.totalDays + "天")}
+              ${renderStat("窑炼进度", "0/100")}
+            </div>
+            <button ${herb.locked ? "disabled" : ""} data-action="adopt" data-id="${herb.id}">${herb.adopted ? "查看窑器" : (herb.locked ? "已认养其它" : "非遗窑器认养")}</button>
+          </div>
+        </article>
+      `;
+    }
+    function renderGalleryCard(herb) {
+      return `
+        <article class="gallery-card" data-herb-id="${herb.id}">
+          <div class="image-wrap">
+            <img src="${herb.imageUrl}" alt="${herb.name}" loading="lazy">
+          </div>
+          <div class="card-body">
+            <h3>${herb.name}</h3>
+            <div class="alias">${herb.alias}</div>
+            <p class="feature">${herb.featureText}</p>
+            <p class="efficacy">${herb.efficacy}</p>
+            ${renderStars(herb.difficulty)}
+            <div class="stats">
+              ${renderStat("烧制周期", herb.totalDays + "天")}
+              ${renderStat("完成进度", "100/100")}
+            </div>
+            <button class="secondary" data-action="view-gallery-detail" data-id="${herb.id}">查看工序图鉴</button>
+          </div>
+        </article>
+      `;
+    }
+    function renderStagePreview(herb, stageIndex) {
+      return `
+        <div class="stage-preview">
+          <canvas data-herb-id="${herb.id}" data-stage="${stageIndex}"></canvas>
+          <div class="stage-caption">${STAGE_NAMES[stageIndex]}</div>
+        </div>
+      `;
+    }
+    function renderGalleryDetail(herb) {
+      return `
+        <div class="gallery-detail">
+          <div class="topbar">
+            <button class="ghost" data-action="back">← 返回柴烧窑器图鉴</button>
+          </div>
+          <div class="gallery-card">
+            <h3>${herb.name} · 柴烧工序图鉴</h3>
+            <div class="stage-grid">
+              ${[0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map(i => renderStagePreview(herb, i)).join("")}
+            </div>
+          </div>
+        </div>
+      `;
+    }
+    function renderPlantView(herb, state) {
+      const current = state.adopted[herb.id] || { progress: 0, day: 0, completed: false };
+      const stageIndex = getStageIndex(current.progress);
+      return `
+        <div class="plant-layout">
+          <div class="topbar">
+            <button class="ghost" data-action="back">← 返回柴烧窑器列表</button>
+            ${current.completed ? '<button class="secondary" data-action="complete" data-id="' + herb.id + '">收藏成品</button>' : '<button class="danger" data-action="abandon" data-id="' + herb.id + '">放弃认养</button>'}
+          </div>
+          <div class="plant-card">
+            <div class="plant-header">
+              <div>
+                <h1>${herb.name}</h1>
+                <p>${herb.alias} · ${herb.featureText}</p>
+              </div>
+              <div class="stage-pill">阶段 ${stageIndex} · ${STAGE_NAMES[stageIndex]}</div>
+            </div>
+            <div class="canvas-shell">
+              <canvas id="plantCanvas" data-herb-id="${herb.id}" data-progress="${current.progress}"></canvas>
+              ${current.completed ? '<div class="mature-banner">🎉 开窑成器 · 认养完成</div>' : ""}
+            </div>
+            <div class="control-panel">
+              <div class="panel-box">
+                <div class="progress-label">
+                  <span>窑炼进度</span>
+                  <span>${current.progress}/${MAX_GROWTH}</span>
+                </div>
+                <div class="progress">
+                  <span style="width:${current.progress}%"></span>
+                </div>
+                <div class="stats">
+                  ${renderStat("烧制周期", `${current.day}/${herb.totalDays}天`)}
+                  ${renderStat("当前工序", getStageName(current.progress))}
+                </div>
+                <div class="actions">
+                  <button ${current.completed ? "disabled" : ""} data-action="water" data-id="${herb.id}">手工制坯</button>
+                  <button ${current.completed ? "disabled" : ""} data-action="fertilize" data-id="${herb.id}">窑火煅烧</button>
+                </div>
+              </div>
+              <div class="panel-box stage-browser">
+                <div class="stage-controls">
+                  <button class="secondary" data-action="stage-prev" data-id="${herb.id}">←</button>
+                  <input type="range" min="0" max="${MAX_GROWTH}" value="${current.progress}" data-action="stage-slider" data-id="${herb.id}">
+                  <button class="secondary" data-action="stage-next" data-id="${herb.id}">→</button>
+                </div>
+                <div class="stage-buttons">
+                  ${[0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map(i => `<button class="stage-btn ${stageIndex === i ? "active" : ""}" data-action="stage-jump" data-id="${herb.id}" data-stage="${i}">${i}</button>`).join("")}
+                </div>
+                <div class="tiny">进度条与阶段按钮可预览各工序状态</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+    function renderHome(state) {
+      const herbs = getAvailableHerbs(state);
+      const gallery = state.gallery.map(id => HERBS.find(h => h.id === id)).filter(Boolean);
+      return `
+        <div class="page">
+          <div class="home">
+            <section class="hero">
+            <h1>云端等开窑</h1>
+            <p>认养一件柴烧窑器，传承千年窑火土艺，沉淀非遗数字传承</p>
+            <div style="margin-top: 18px;">
+              <button onclick="window.location.href='craft-process.html'" class="secondary">
+                查看柴烧窑器制作过程 →
+              </button>
+            </div>
+          </section>
+            <section>
+              <div class="section-title">
+                <h2>柴烧窑器图鉴</h2>
+                <span class="hint">非遗工艺实录 · 柴烧窑器工序动态绘制</span>
+              </div>
+              <div class="herb-grid">
+                ${herbs.map(renderHerbCard).join("")}
+              </div>
+            </section>
+            ${gallery.length > 0 ? `
+            <section>
+              <div class="section-title">
+                <h2>非遗成器收藏</h2>
+                <span class="hint">已完成的柴烧窑器作品</span>
+              </div>
+              <div class="gallery-list">
+                ${gallery.map(renderGalleryCard).join("")}
+              </div>
+            </section>
+            ` : ""}
+          </div>
+        </div>
+      `;
+    }
+    function drawPlant(canvas, herb, progress) {
+      const ctx = canvas.getContext("2d");
+      const rect = canvas.getBoundingClientRect();
+      const width = rect.width;
+      const height = rect.height;
+      ctx.clearRect(0, 0, width, height);
+      const colors = herb.colors;
+      const stage = getStageIndex(progress);
+      const stageProgress = (progress % 25) / 25;
+      ctx.fillStyle = "#1a1613";
+      ctx.fillRect(0, 0, width, height);
+      const centerX = width / 2;
+      const baseY = height * 0.85;
+      if (stage >= 0) {
+        ctx.fillStyle = "#3a3028";
+        ctx.beginPath();
+        ctx.ellipse(centerX, baseY + 20, width * 0.35, 30, 0, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      if (stage === 0 || stage === 1) {
+        const soilHeight = 30 + stageProgress * 40;
+        ctx.fillStyle = "#8b6914";
+        ctx.beginPath();
+        ctx.ellipse(centerX, baseY + soilHeight / 2, width * 0.2, soilHeight / 2, 0, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.fillStyle = "#a0522d";
+        ctx.beginPath();
+        ctx.ellipse(centerX, baseY + soilHeight / 2, width * 0.15, soilHeight / 3, 0, 0, Math.PI * 2);
+        ctx.fill();
+        for (let i = 0; i < 5; i++) {
+          const px = centerX + (i - 2) * 15 * stageProgress;
+          const py = baseY - 10 * stageProgress;
+          ctx.fillStyle = "#5d4e37";
+          ctx.beginPath();
+          ctx.arc(px, py, 3 * stageProgress, 0, Math.PI * 2);
+          ctx.fill();
+        }
+        if (stageProgress > 0.5) {
+          ctx.fillStyle = "#c47d4c";
+          ctx.font = "14px Microsoft YaHei";
+          ctx.textAlign = "center";
+          ctx.fillText("备泥取土", centerX, baseY - 30 * stageProgress);
+        }
+      }
+      if (stage >= 2) {
+        const potWidth = 60 + stageProgress * 80;
+        const potHeight = 80 + stageProgress * 60;
+        ctx.fillStyle = colors.body || "#8b6914";
+        ctx.beginPath();
+        ctx.moveTo(centerX - potWidth / 2, baseY);
+        ctx.quadraticCurveTo(centerX - potWidth / 2 - 10, baseY - potHeight / 2, centerX - potWidth / 3, baseY - potHeight);
+        ctx.lineTo(centerX + potWidth / 3, baseY - potHeight);
+        ctx.quadraticCurveTo(centerX + potWidth / 2 + 10, baseY - potHeight / 2, centerX + potWidth / 2, baseY);
+        ctx.closePath();
+        ctx.fill();
+        ctx.strokeStyle = "#5d4e37";
+        ctx.lineWidth = 2;
+        ctx.stroke();
+        if (herb.uniqueFeature === "tigerPattern" && stageProgress > 0.3) {
+          ctx.strokeStyle = "#2f4f4f";
+          ctx.lineWidth = 3;
+          ctx.beginPath();
+          ctx.moveTo(centerX - potWidth / 4, baseY - potHeight * 0.3);
+          ctx.lineTo(centerX - potWidth / 6, baseY - potHeight * 0.5);
+          ctx.lineTo(centerX, baseY - potHeight * 0.4);
+          ctx.stroke();
+        }
+        if (stageProgress > 0.6) {
+          ctx.fillStyle = "#c47d4c";
+          ctx.font = "14px Microsoft YaHei";
+          ctx.textAlign = "center";
+          ctx.fillText("拉坯修坯", centerX, baseY - potHeight - 20);
+        }
+      }
+      if (stage >= 4) {
+        const potWidth = 140;
+        const potHeight = 140;
+        ctx.fillStyle = colors.body || "#8b6914";
+        ctx.beginPath();
+        ctx.moveTo(centerX - potWidth / 2, baseY);
+        ctx.quadraticCurveTo(centerX - potWidth / 2 - 10, baseY - potHeight / 2, centerX - potWidth / 3, baseY - potHeight);
+        ctx.lineTo(centerX + potWidth / 3, baseY - potHeight);
+        ctx.quadraticCurveTo(centerX + potWidth / 2 + 10, baseY - potHeight / 2, centerX + potWidth / 2, baseY);
+        ctx.closePath();
+        ctx.fill();
+        ctx.fillStyle = colors.glaze || "#d4a017";
+        ctx.globalAlpha = 0.3 + stageProgress * 0.5;
+        ctx.beginPath();
+        ctx.moveTo(centerX - potWidth / 2 + 5, baseY - 5);
+        ctx.quadraticCurveTo(centerX - potWidth / 2 - 5, baseY - potHeight / 2, centerX - potWidth / 3 + 5, baseY - potHeight + 10);
+        ctx.lineTo(centerX + potWidth / 3 - 5, baseY - potHeight + 10);
+        ctx.quadraticCurveTo(centerX + potWidth / 2 + 5, baseY - potHeight / 2, centerX + potWidth / 2 - 5, baseY - 5);
+        ctx.closePath();
+        ctx.fill();
+        ctx.globalAlpha = 1;
+        if (stageProgress > 0.5) {
+          ctx.fillStyle = "#c47d4c";
+          ctx.font = "14px Microsoft YaHei";
+          ctx.textAlign = "center";
+          ctx.fillText("上釉素烧", centerX, baseY - potHeight - 20);
+        }
+      }
+      if (stage >= 6) {
+        const potWidth = 140;
+        const potHeight = 140;
+        const fireIntensity = stageProgress;
+        const gradient = ctx.createLinearGradient(centerX - potWidth / 2, baseY, centerX + potWidth / 2, baseY - potHeight);
+        gradient.addColorStop(0, colors.body || "#8b6914");
+        gradient.addColorStop(0.5, colors.accent || "#a0522d");
+        gradient.addColorStop(1, colors.body || "#8b6914");
+        ctx.fillStyle = gradient;
+        ctx.beginPath();
+        ctx.moveTo(centerX - potWidth / 2, baseY);
+        ctx.quadraticCurveTo(centerX - potWidth / 2 - 10, baseY - potHeight / 2, centerX - potWidth / 3, baseY - potHeight);
+        ctx.lineTo(centerX + potWidth / 3, baseY - potHeight);
+        ctx.quadraticCurveTo(centerX + potWidth / 2 + 10, baseY - potHeight / 2, centerX + potWidth / 2, baseY);
+        ctx.closePath();
+        ctx.fill();
+        const glazeGradient = ctx.createRadialGradient(centerX, baseY - potHeight / 2, 0, centerX, baseY - potHeight / 2, potWidth / 2);
+        glazeGradient.addColorStop(0, `rgba(212, 160, 23, ${0.6 + fireIntensity * 0.3})`);
+        glazeGradient.addColorStop(0.7, `rgba(212, 160, 23, ${0.4 + fireIntensity * 0.3})`);
+        glazeGradient.addColorStop(1, `rgba(212, 160, 23, ${0.2 + fireIntensity * 0.2})`);
+        ctx.fillStyle = glazeGradient;
+        ctx.globalAlpha = 0.9;
+        ctx.beginPath();
+        ctx.moveTo(centerX - potWidth / 2 + 5, baseY - 5);
+        ctx.quadraticCurveTo(centerX - potWidth / 2 - 5, baseY - potHeight / 2, centerX - potWidth / 3 + 5, baseY - potHeight + 10);
+        ctx.lineTo(centerX + potWidth / 3 - 5, baseY - potHeight + 10);
+        ctx.quadraticCurveTo(centerX + potWidth / 2 + 5, baseY - potHeight / 2, centerX + potWidth / 2 - 5, baseY - 5);
+        ctx.closePath();
+        ctx.fill();
+        ctx.globalAlpha = 1;
+        for (let i = 0; i < 25 * fireIntensity; i++) {
+          const fx = centerX + (Math.random() - 0.5) * (potWidth + 30);
+          const fy = baseY + 10 + Math.random() * 60 * fireIntensity;
+          const size = 2 + Math.random() * 6 * fireIntensity;
+          const alpha = 0.4 + Math.random() * 0.5 * fireIntensity;
+          const fireGradient = ctx.createRadialGradient(fx, fy, 0, fx, fy, size);
+          fireGradient.addColorStop(0, `rgba(255, 255, 200, ${alpha})`);
+          fireGradient.addColorStop(0.3, `rgba(255, 180, 50, ${alpha * 0.8})`);
+          fireGradient.addColorStop(0.7, `rgba(255, 80, 30, ${alpha * 0.5})`);
+          fireGradient.addColorStop(1, `rgba(200, 40, 20, 0)`);
+          ctx.fillStyle = fireGradient;
+          ctx.beginPath();
+          ctx.arc(fx, fy, size, 0, Math.PI * 2);
+          ctx.fill();
+        }
+        const baseFire = ctx.createRadialGradient(centerX, baseY + 35, 0, centerX, baseY + 35, potWidth / 2);
+        baseFire.addColorStop(0, "#ffd700");
+        baseFire.addColorStop(0.4, "#ff8c00");
+        baseFire.addColorStop(0.7, "#ff4500");
+        baseFire.addColorStop(1, "#8b0000");
+        ctx.fillStyle = baseFire;
+        ctx.beginPath();
+        ctx.ellipse(centerX, baseY + 40, potWidth / 2, 25, 0, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.fillStyle = "#fffacd";
+        ctx.globalAlpha = 0.6 * fireIntensity;
+        ctx.beginPath();
+        ctx.ellipse(centerX, baseY + 35, potWidth / 5, 8, 0, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.globalAlpha = 1;
+        for (let i = 0; i < 10 * fireIntensity; i++) {
+          const ax = centerX + (Math.random() - 0.5) * potWidth;
+          const ay = baseY - potHeight / 2 + Math.random() * potHeight;
+          ctx.fillStyle = `rgba(255, 200, 100, ${0.2 + Math.random() * 0.3 * fireIntensity})`;
+          ctx.beginPath();
+          ctx.arc(ax, ay, 1 + Math.random() * 2, 0, Math.PI * 2);
+          ctx.fill();
+        }
+        if (stageProgress > 0.5) {
+          ctx.fillStyle = "#e89649";
+          ctx.font = "bold 14px Microsoft YaHei";
+          ctx.textAlign = "center";
+          ctx.fillText("封窑煅烧", centerX, baseY - potHeight - 20);
+        }
+      }
+      if (stage >= 8) {
+        const potWidth = 140;
+        const potHeight = 140;
+        const finalGloss = 0.8 + stageProgress * 0.2;
+        const bodyGradient = ctx.createLinearGradient(centerX - potWidth / 2, baseY, centerX + potWidth / 2, baseY - potHeight);
+        bodyGradient.addColorStop(0, colors.body || "#8b6914");
+        bodyGradient.addColorStop(0.3, colors.accent || "#a0522d");
+        bodyGradient.addColorStop(0.7, colors.accent || "#a0522d");
+        bodyGradient.addColorStop(1, colors.body || "#8b6914");
+        ctx.fillStyle = bodyGradient;
+        ctx.beginPath();
+        ctx.moveTo(centerX - potWidth / 2, baseY);
+        ctx.quadraticCurveTo(centerX - potWidth / 2 - 10, baseY - potHeight / 2, centerX - potWidth / 3, baseY - potHeight);
+        ctx.lineTo(centerX + potWidth / 3, baseY - potHeight);
+        ctx.quadraticCurveTo(centerX + potWidth / 2 + 10, baseY - potHeight / 2, centerX + potWidth / 2, baseY);
+        ctx.closePath();
+        ctx.fill();
+        const glazeGradient = ctx.createRadialGradient(centerX - potWidth / 4, baseY - potHeight * 0.6, 0, centerX, baseY - potHeight / 2, potWidth / 2);
+        glazeGradient.addColorStop(0, `rgba(212, 160, 23, ${finalGloss})`);
+        glazeGradient.addColorStop(0.5, `rgba(212, 160, 23, ${finalGloss * 0.7})`);
+        glazeGradient.addColorStop(0.8, `rgba(180, 130, 20, ${finalGloss * 0.5})`);
+        glazeGradient.addColorStop(1, `rgba(150, 100, 15, ${finalGloss * 0.3})`);
+        ctx.fillStyle = glazeGradient;
+        ctx.globalAlpha = finalGloss;
+        ctx.beginPath();
+        ctx.moveTo(centerX - potWidth / 2 + 5, baseY - 5);
+        ctx.quadraticCurveTo(centerX - potWidth / 2 - 5, baseY - potHeight / 2, centerX - potWidth / 3 + 5, baseY - potHeight + 10);
+        ctx.lineTo(centerX + potWidth / 3 - 5, baseY - potHeight + 10);
+        ctx.quadraticCurveTo(centerX + potWidth / 2 + 5, baseY - potHeight / 2, centerX + potWidth / 2 - 5, baseY - 5);
+        ctx.closePath();
+        ctx.fill();
+        ctx.globalAlpha = 1;
+        if (herb.uniqueFeature === "redKilnChange") {
+          const kilnGradient = ctx.createRadialGradient(centerX + 25, baseY - potHeight * 0.5, 0, centerX + 25, baseY - potHeight * 0.5, 40);
+          kilnGradient.addColorStop(0, "rgba(200, 50, 40, 0.6)");
+          kilnGradient.addColorStop(0.5, "rgba(180, 40, 30, 0.4)");
+          kilnGradient.addColorStop(1, "rgba(150, 30, 20, 0)");
+          ctx.fillStyle = kilnGradient;
+          ctx.beginPath();
+          ctx.ellipse(centerX + 20, baseY - potHeight * 0.4, 35, 45, 0.2, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.fillStyle = "rgba(220, 80, 60, 0.3)";
+          ctx.beginPath();
+          ctx.ellipse(centerX + 15, baseY - potHeight * 0.3, 25, 35, -0.1, 0, Math.PI * 2);
+          ctx.fill();
+        }
+        for (let i = 0; i < 15; i++) {
+          const lx = centerX - potWidth / 3 + (potWidth / 3) * Math.random();
+          const ly = baseY - potHeight * 0.8 + (potHeight * 0.6) * Math.random();
+          const lw = 10 + Math.random() * 20;
+          ctx.strokeStyle = `rgba(255, 240, 200, ${0.15 + Math.random() * 0.1})`;
+          ctx.lineWidth = 1;
+          ctx.beginPath();
+          ctx.moveTo(lx, ly);
+          ctx.bezierCurveTo(lx + lw / 3, ly - 5, lx + lw * 2 / 3, ly + 5, lx + lw, ly);
+          ctx.stroke();
+        }
+        for (let i = 0; i < 20; i++) {
+          const dx = centerX + (Math.random() - 0.5) * potWidth * 0.8;
+          const dy = baseY - potHeight * 0.3 + Math.random() * potHeight * 0.5;
+          ctx.fillStyle = `rgba(255, 230, 180, ${0.1 + Math.random() * 0.15})`;
+          ctx.beginPath();
+          ctx.arc(dx, dy, 0.5 + Math.random() * 1.5, 0, Math.PI * 2);
+          ctx.fill();
+        }
+        for (let i = 0; i < 8 * (1 - stageProgress); i++) {
+          const sx = centerX + (Math.random() - 0.5) * (potWidth + 40);
+          const sy = baseY - potHeight + Math.random() * potHeight;
+          ctx.fillStyle = `rgba(160, 160, 160, ${0.3 * (1 - stageProgress)})`;
+          ctx.beginPath();
+          ctx.arc(sx, sy, 2 + Math.random() * 3, 0, Math.PI * 2);
+          ctx.fill();
+        }
+        const shineGradient = ctx.createLinearGradient(centerX - potWidth / 3, baseY - potHeight * 0.7, centerX - potWidth / 6, baseY - potHeight * 0.4);
+        shineGradient.addColorStop(0, "rgba(255, 255, 255, 0)");
+        shineGradient.addColorStop(0.3, `rgba(255, 255, 255, ${0.2 * finalGloss})`);
+        shineGradient.addColorStop(0.5, `rgba(255, 255, 255, ${0.15 * finalGloss})`);
+        shineGradient.addColorStop(1, "rgba(255, 255, 255, 0)");
+        ctx.fillStyle = shineGradient;
+        ctx.beginPath();
+        ctx.moveTo(centerX - potWidth / 3, baseY - potHeight * 0.7);
+        ctx.lineTo(centerX - potWidth / 6, baseY - potHeight * 0.4);
+        ctx.lineTo(centerX - potWidth / 10, baseY - potHeight * 0.35);
+        ctx.lineTo(centerX - potWidth / 4, baseY - potHeight * 0.65);
+        ctx.closePath();
+        ctx.fill();
+        if (stage === 9) {
+          ctx.fillStyle = "#e89649";
+          ctx.font = "bold 16px Microsoft YaHei";
+          ctx.textAlign = "center";
+          ctx.fillText("✨ 开窑成器", centerX, baseY - potHeight - 30);
+        } else {
+          ctx.fillStyle = "#c47d4c";
+          ctx.font = "14px Microsoft YaHei";
+          ctx.textAlign = "center";
+          ctx.fillText("开窑成品", centerX, baseY - potHeight - 20);
+        }
+      }
+    }
+    function initCanvas(selector) {
+      const canvas = document.querySelector(selector);
+      if (!canvas) return;
+      const rect = canvas.getBoundingClientRect();
+      canvas.width = rect.width * window.devicePixelRatio;
+      canvas.height = rect.height * window.devicePixelRatio;
+      const ctx = canvas.getContext("2d");
+      ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+      const herbId = canvas.dataset.herbId;
+      const progress = parseInt(canvas.dataset.progress || "0");
+      const herb = HERBS.find(h => h.id === herbId);
+      if (herb) {
+        drawPlant(canvas, herb, progress);
+      }
+    }
+    function initStagePreviews() {
+      const canvases = document.querySelectorAll(".stage-preview canvas");
+      canvases.forEach(canvas => {
+        const rect = canvas.getBoundingClientRect();
+        canvas.width = rect.width * window.devicePixelRatio;
+        canvas.height = rect.height * window.devicePixelRatio;
+        const ctx = canvas.getContext("2d");
+        ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+        const herbId = canvas.dataset.herbId;
+        const stage = parseInt(canvas.dataset.stage);
+        const herb = HERBS.find(h => h.id === herbId);
+        if (herb) {
+          let progress = 0;
+          if (stage >= 0 && stage <= 1) progress = stage * 12.5;
+          else if (stage >= 2 && stage <= 3) progress = 25 + (stage - 2) * 12.5;
+          else if (stage >= 4 && stage <= 5) progress = 50 + (stage - 4) * 12.5;
+          else if (stage >= 6 && stage <= 7) progress = 75 + (stage - 6) * 12.5;
+          else progress = 95 + (stage - 8) * 5;
+          drawPlant(canvas, herb, progress);
+        }
+      });
+    }
+    let currentView = "home";
+    let currentHerbId = null;
+    function render(state) {
+      const app = document.getElementById("app");
+      if (!app) return;
+      if (currentView === "home") {
+        app.innerHTML = renderHome(state);
+      } else if (currentView === "plant" && currentHerbId) {
+        const herb = HERBS.find(h => h.id === currentHerbId);
+        if (herb) {
+          app.innerHTML = renderPlantView(herb, state);
+          setTimeout(() => initCanvas("#plantCanvas"), 50);
+        }
+      } else if (currentView === "gallery-detail" && currentHerbId) {
+        const herb = HERBS.find(h => h.id === currentHerbId);
+        if (herb) {
+          app.innerHTML = renderGalleryDetail(herb);
+          setTimeout(() => initStagePreviews(), 50);
+        }
+      }
+    }
+    const state = loadState();
+    const app = document.getElementById("app");
+    if (app) {
+      app.addEventListener("click", (e) => {
+        const action = e.target.closest("[data-action]")?.dataset.action;
+        const id = e.target.closest("[data-id]")?.dataset.id;
+        if (!action) return;
+        if (action === "adopt") {
+          const adoptedIds = Object.keys(state.adopted);
+          if (adoptedIds.length > 0 && !adoptedIds.includes(id)) {
+            alert("您已认养了其他窑器，请先放弃当前认养后再重新选择。");
+            return;
+          }
+          currentHerbId = id;
+          currentView = "plant";
+          if (!state.adopted[id]) {
+            state.adopted[id] = { progress: 0, day: 0, completed: false };
+            saveState(state);
+          }
+          render(state);
+        } else if (action === "back") {
+          currentView = "home";
+          currentHerbId = null;
+          render(state);
+        } else if (action === "water") {
+          if (!state.adopted[id]) return;
+          const herb = HERBS.find(h => h.id === id);
+          if (!herb) return;
+          const increment = getGrowthPerAction(herb);
+          const newProgress = Math.min(MAX_GROWTH, state.adopted[id].progress + increment);
+          const newDay = state.adopted[id].day + 1;
+          const completed = newProgress >= MAX_GROWTH;
+          state.adopted[id] = { progress: newProgress, day: newDay, completed };
+          saveState(state);
+          render(state);
+        } else if (action === "fertilize") {
+          if (!state.adopted[id]) return;
+          const herb = HERBS.find(h => h.id === id);
+          if (!herb) return;
+          const increment = getGrowthPerAction(herb) * 2;
+          const newProgress = Math.min(MAX_GROWTH, state.adopted[id].progress + increment);
+          const newDay = state.adopted[id].day + 2;
+          const completed = newProgress >= MAX_GROWTH;
+          state.adopted[id] = { progress: newProgress, day: newDay, completed };
+          saveState(state);
+          render(state);
+        } else if (action === "abandon") {
+          if (confirm("确定要放弃认养吗？放弃认养后该窑器的进度将清空，你可以重新认养其他窑器")) {
+            delete state.adopted[id];
+            saveState(state);
+            currentView = "home";
+            currentHerbId = null;
+            render(state);
+          }
+        } else if (action === "complete") {
+          if (!state.gallery.includes(id)) {
+            state.gallery.push(id);
+            saveState(state);
+          }
+          currentView = "home";
+          currentHerbId = null;
+          render(state);
+        } else if (action === "stage-prev") {
+          const canvas = document.getElementById("plantCanvas");
+          if (canvas) {
+            let progress = parseInt(canvas.dataset.progress || "0");
+            progress = Math.max(0, progress - 5);
+            canvas.dataset.progress = progress;
+            const herb = HERBS.find(h => h.id === id);
+            if (herb) drawPlant(canvas, herb, progress);
+          }
+        } else if (action === "stage-next") {
+          const canvas = document.getElementById("plantCanvas");
+          if (canvas) {
+            let progress = parseInt(canvas.dataset.progress || "0");
+            progress = Math.min(MAX_GROWTH, progress + 5);
+            canvas.dataset.progress = progress;
+            const herb = HERBS.find(h => h.id === id);
+            if (herb) drawPlant(canvas, herb, progress);
+          }
+        } else if (action === "stage-slider") {
+          const canvas = document.getElementById("plantCanvas");
+          if (canvas && e.target.value !== undefined) {
+            const progress = parseInt(e.target.value);
+            canvas.dataset.progress = progress;
+            const herb = HERBS.find(h => h.id === id);
+            if (herb) drawPlant(canvas, herb, progress);
+          }
+        } else if (action === "stage-jump") {
+          const canvas = document.getElementById("plantCanvas");
+          if (canvas) {
+            const stage = parseInt(e.target.dataset.stage);
+            let progress = 0;
+            if (stage >= 0 && stage <= 1) progress = stage * 12.5;
+            else if (stage >= 2 && stage <= 3) progress = 25 + (stage - 2) * 12.5;
+            else if (stage >= 4 && stage <= 5) progress = 50 + (stage - 4) * 12.5;
+            else if (stage >= 6 && stage <= 7) progress = 75 + (stage - 6) * 12.5;
+            else progress = 95 + (stage - 8) * 5;
+            canvas.dataset.progress = progress;
+            const herb = HERBS.find(h => h.id === id);
+            if (herb) drawPlant(canvas, herb, progress);
+          }
+        } else if (action === "view-gallery-detail") {
+          currentHerbId = id;
+          currentView = "gallery-detail";
+          render(state);
+        }
+      });
+    }
+    render(state);
+    window.addEventListener("resize", () => {
+      initCanvas("#plantCanvas");
+      initStagePreviews();
+    });
+  </script>
+</body>
+</html>
